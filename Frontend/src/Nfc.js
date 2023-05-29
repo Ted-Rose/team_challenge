@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Nfc = () => {
+const Nfc = (props) => {
   useEffect(() => {
     // Function to log messages to the console
     const log = (...args) => {
@@ -46,13 +46,15 @@ const Nfc = () => {
 
         // Event listener for reading errors
         ndef.addEventListener("readingerror", () => {
-          log("Argh! Cannot read data from the NFC tag. Try another one?");
+          log("Neizdevās nolasīt NFC karti!");
         });
 
         // Event listener for successful reading
         ndef.addEventListener("reading", ({ message, serialNumber }) => {
           log(`> Serial Number: ${serialNumber}`);
+          props.changeSerial({ serialNumber });
           log(`> Records: (${message.records.length})`);
+          // props.changeMessage({ message });
         });
       } catch (error) {
         log("Argh! " + error);

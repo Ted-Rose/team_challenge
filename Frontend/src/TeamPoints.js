@@ -55,7 +55,9 @@ const TeamPoints = () => {
 
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
-    const url = "http://localhost:8000/teams";
+    // const url = "http://localhost:8000/teams";
+    const url =
+      "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/teams";
 
     try {
       const response = await fetch(url, {
@@ -66,7 +68,29 @@ const TeamPoints = () => {
 
       if (response.ok) {
         setAuthorized(true);
-        const data = await response.json();
+        // const data = await response.json();
+        const data = {
+          teams: [
+            {
+              ID: 1,
+              TID: 1,
+              Name: "Kaķēni",
+              Value: 3,
+            },
+            {
+              id: 2,
+              TID: 2,
+              Name: "Lauvas",
+              Value: 8,
+            },
+            {
+              ID: 3,
+              TID: 3,
+              Name: "Zivtiņas",
+              Value: 13,
+            },
+          ],
+        };
         if (Array.isArray(data.teams)) {
           setTeams(data.teams);
         } else {
@@ -89,13 +113,13 @@ const TeamPoints = () => {
       <main className="container">
         <div className="bg-light p-5 rounded">
           <div className="text-center">
-            <p className="lead">Pievieno vai noņem punktus komandai</p>
-            <div className="btn-group-lg center lg-1">
+            <h2 className="lead">Pievieno vai noņem punktus komandai</h2>
+            <div className="points btn-group-lg center lg-1">
               {[-10, -5, -1, +1, +5, +10].map((value) => (
                 <button
                   key={value}
                   type="button"
-                  className={`btn btn-sm btn-outline-secondary ms-5 ${
+                  className={`btn ${
                     value > 0 ? "btn-outline-success" : "btn-outline-danger"
                   }`}
                   onClick={() =>

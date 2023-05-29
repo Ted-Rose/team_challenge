@@ -1,9 +1,8 @@
-import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
 
-function PasswordForm() {
+const PasswordForm = () => {
   const [message, setMessage] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [inputHasError, setInputHasError] = React.useState(false);
@@ -100,6 +99,6 @@ function PasswordForm() {
       </main>
     </div>
   );
-}
+};
 
 export default PasswordForm;

@@ -27,7 +27,7 @@ function PointsControl(props) {
           <div>
             <h6 className="mb-0">{props.teamName}</h6>
           </div>
-          <p>Total point count:</p>
+          <p>Punkti:</p>
           <p>{props.count}</p>
         </div>
       </label>
