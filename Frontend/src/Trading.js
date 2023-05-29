@@ -38,8 +38,9 @@ const Trading = () => {
 
   // Fetch updated player points
   const getNewPoints = () => {
-    const url =
-      "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
+    // const url =
+    //   "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
+    const url = "http://localhost:8000/players";
     fetch(url)
       .then((response) => {
         return response.json();
