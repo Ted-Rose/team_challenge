@@ -55,9 +55,9 @@ const TeamPoints = () => {
 
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
-    const url = "http://localhost:8000/teams";
-    // const url =
-    //   "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/teams";
+    // const url = "http://localhost:8000/teams";
+    const url =
+      "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/teams";
 
     try {
       const response = await fetch(url, {
@@ -68,29 +68,29 @@ const TeamPoints = () => {
 
       if (response.ok) {
         setAuthorized(true);
-        const data = await response.json();
-        // const data = {
-        //   teams: [
-        //     {
-        //       ID: 1,
-        //       TID: 1,
-        //       Name: "Kaķēni",
-        //       Value: 3,
-        //     },
-        //     {
-        //       id: 2,
-        //       TID: 2,
-        //       Name: "Lauvas",
-        //       Value: 8,
-        //     },
-        //     {
-        //       ID: 3,
-        //       TID: 3,
-        //       Name: "Zivtiņas",
-        //       Value: 13,
-        //     },
-        //   ],
-        // };
+        // const data = await response.json();
+        const data = {
+          teams: [
+            {
+              ID: 1,
+              TID: 1,
+              Name: "Kaķēni",
+              Value: 3,
+            },
+            {
+              id: 2,
+              TID: 2,
+              Name: "Lauvas",
+              Value: 8,
+            },
+            {
+              ID: 3,
+              TID: 3,
+              Name: "Zivtiņas",
+              Value: 13,
+            },
+          ],
+        };
         if (Array.isArray(data.teams)) {
           setTeams(data.teams);
         } else {
