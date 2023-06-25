@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 
 function PointsControl(props) {
-  const [selectedState, setSelectedState] = useState("unselected");
-
   // Event handler for checkbox change
-  const handleOnChange = (TID) => {
-    setSelectedState("selected");
-    props.changeUpdatedCheckedState(TID);
+  const handleOnChange = (ID) => {
+    props.changeUpdatedCheckedState(ID);
   };
 
   return (
@@ -14,7 +11,7 @@ function PointsControl(props) {
       <label
         className={`list-group-item rounded-3 py-3 ${props.selectedState}`}
         htmlFor="listGroupCheckableRadios1"
-        onClick={() => handleOnChange(props.TID)}
+        onClick={() => handleOnChange(props.ID)}
       >
         <div className="d-flex gap-2 w-100 justify-content-between">
           <img

@@ -1,12 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
 import "./App.css";
 
-const PasswordForm = () => {
-  const [message, setMessage] = React.useState("");
-  const [passwordInput, setPasswordInput] = React.useState("");
-  const [inputHasError, setInputHasError] = React.useState(false);
-  const [hideErrorMessage, setHideErrorMessage] = React.useState(true);
+const PasswordForm = ({ setToken }) => {
+  const [message, setMessage] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [inputHasError, setInputHasError] = useState(false);
+  const [hideErrorMessage, setHideErrorMessage] = useState(true);
 
   const inputChangeHandler = (event) => {
     setPasswordInput(event.target.value);
@@ -33,7 +34,8 @@ const PasswordForm = () => {
       } else {
         setInputHasError(false);
         setMessage("Parole ir pareiza!");
-        navigate("/komandas", { state: { token: response["token"] } });
+        setToken(response["token"]); // Set the token in the parent component
+        navigate("/komandas");
       }
     }
     setHideErrorMessage(false);

@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+// import React, {useState} from "react";
+
+import { TokenContext } from "./TokenContext";
 import Navbar from "./Navbar";
 import PointsControl from "./PointsControl";
 import { useLocation } from "react-router-dom";
 import "./TeamPoints.css";
 
-const TeamPoints = () => {
+const TeamPoints = (props) => {
   const [teams, setTeams] = useState([]); // State for team data
   const [selectedTID, setSelectedTeamId] = useState(1); // State for selected team ID
   const [authorized, setAuthorized] = useState(false); // State for authorization status
   const location = useLocation(); // Using location from React Router DOM to get token
-  const token = location.state?.token; // Extracting token from location state
+  // const token = location.state?.token; // Extracting token from location state
+  // const { token } = useContext(TokenContext); // Access the token value from the context
 
   // useEffect hook to fetch teams data on component mount
   useEffect(() => {
     GetNewPoints();
   }, []);
-
+  
+  console.log("Token: ", props.token)
   // Function to change points of a team
   const changePoints = async (action, value) => {
     const url =
@@ -24,7 +29,7 @@ const TeamPoints = () => {
         : "http://localhost:8000/subtract";
 
     const data = {
-      TID: selectedTID,
+      ID: selectedTID,
       Value: value,
     };
 
@@ -33,7 +38,7 @@ const TeamPoints = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${props.token}`,
         },
         body: JSON.stringify(data),
       });
@@ -50,47 +55,23 @@ const TeamPoints = () => {
       console.log("Request failed with error:", error);
     }
     // Fetching new team data to update UI
-    GetNewPoints(token);
+    GetNewPoints(props.token);
   };
 
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
-    // const url = "http://localhost:8000/teams";
-    const url =
-      "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/teams";
+    const url = "http://localhost:8000/teams";
 
     try {
       const response = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${props.token}`,
         },
       });
 
       if (response.ok) {
         setAuthorized(true);
-        // const data = await response.json();
-        const data = {
-          teams: [
-            {
-              ID: 1,
-              TID: 1,
-              Name: "Kaķēni",
-              Value: 3,
-            },
-            {
-              id: 2,
-              TID: 2,
-              Name: "Lauvas",
-              Value: 8,
-            },
-            {
-              ID: 3,
-              TID: 3,
-              Name: "Zivtiņas",
-              Value: 13,
-            },
-          ],
-        };
+        const data = await response.json();
         if (Array.isArray(data.teams)) {
           setTeams(data.teams);
         } else {
@@ -113,13 +94,13 @@ const TeamPoints = () => {
       <main className="container">
         <div className="bg-light p-5 rounded">
           <div className="text-center">
-            <h2 className="lead">Pievieno vai noņem punktus komandai</h2>
-            <div className="points btn-group-lg center lg-1">
+            <p className="lead">Pievieno vai noņem punktus komandai</p>
+            <div className="btn-group-lg center lg-1">
               {[-10, -5, -1, +1, +5, +10].map((value) => (
                 <button
                   key={value}
                   type="button"
-                  className={`btn ${
+                  className={`btn btn-sm btn-outline-secondary ms-5 ${
                     value > 0 ? "btn-outline-success" : "btn-outline-danger"
                   }`}
                   onClick={() =>
@@ -144,7 +125,7 @@ const TeamPoints = () => {
               count={Value}
               teamName={Name}
               changeUpdatedCheckedState={setSelectedTeamId}
-              selectedState={selectedTID === TID ? "selected" : "unselected"}
+              selectedState={selectedTID === ID ? "selected" : "unselected"}
             />
           ))}
         </div>

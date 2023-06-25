@@ -1,18 +1,34 @@
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
 import "./index.css";
 import "./App.css";
 import PasswordForm from "./PasswordForm";
 import TeamPoints from "./TeamPoints";
 import Trading from "./Trading";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<PasswordForm />} />
-      <Route path="/komandas" element={<TeamPoints />} />
-      <Route path="/tirdzins" element={<Trading />} />
-    </Routes>
-  </BrowserRouter>
-);
+const App = () => {
+  const [token, setToken] = useState(null);
+
+  const handleTokenChange = (newToken) => {
+    setToken(newToken);
+  };
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={<PasswordForm setToken={handleTokenChange} />}
+        />
+        <Route
+          path="/komandas"
+          element={<TeamPoints token={token} />}
+        />
+        <Route path="/tirdzins" element={<Trading token={token}/>} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
