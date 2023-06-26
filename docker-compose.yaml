@@ -1,13 +1,14 @@
-version: '3.8'
+version: '3'
 services:
   db:
-    image: postgres:latest
+    image: mysql:latest
+    restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 2XjE96zCPscH
-      POSTGRES_DB: team_challenge
+      MYSQL_ROOT_PASSWORD: 212314fXjE96zCPscH
+      MYSQL_DATABASE: team_challenge
+      MYSQL_USER: master
+      MYSQL_PASSWORD: 21231x2314fXjdE96zCPscH
     volumes:
-      - db-data:/var/lib/postgresql/data
-
-volumes:
-  db-data:
+      - ./data:/var/lib/mysql
+    ports:
+      - 3307:3306
