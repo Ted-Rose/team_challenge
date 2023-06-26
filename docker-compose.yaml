@@ -12,3 +12,12 @@ services:
       - ./data:/var/lib/mysql
     ports:
       - 3307:3306
+
+  be:
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
+    ports:
+      - 8000:80
+    volumes:
+      - .:/var/www/html
