@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::prefix('team')->group(function () {
+    Route::get('/', [TeamController::class, 'index'])->name('team.index');
+    Route::get('/{id}', [TeamController::class, 'show'])->name('team.show');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

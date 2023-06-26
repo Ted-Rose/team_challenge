@@ -13,11 +13,11 @@ services:
     ports:
       - 3307:3306
 
-  be:
-    build:
-      context: .
-      dockerfile: Backend/Dockerfile
-    ports:
-      - 8000:80
-    volumes:
-      - .:/var/www/html
+  # backend:
+  #   build:
+  #     context: ./Backend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./Backend/storage/docker_files:/var/www/html/Backend/storage/docker_files
