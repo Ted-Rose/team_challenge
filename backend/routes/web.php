@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('team')->group(function () {
+Route::prefix('teams')->group(function () {
     Route::get('/', [TeamsController::class, 'index'])->name('team.index');
-    Route::get('/{id}', [TeamsController::class, 'show'])->name('teams.show');
+    Route::get('/{id}', [TeamsController::class, 'show'])->name('team.show');
 });
 
 Route::get('/', function () {
