@@ -2,17 +2,17 @@
 Create MVP for BE using Laravel that communicates with FE
 
 # ToDoList
-6. Create end point /change-teams-points
-7. Create change teams points functionality
-8. Create end point /change-players-points
-9. Create change players points functionality
+10. Update Frontend accordingly
+11. Fix Laravels dockerization
 
 # Medium priority ToDoList
-1. Dockerized Laravel not working
-    1. Probably main issue is with newest versions dockerization
 
 # Done list
 Simple log - place cursor over the change you are interested in to get information about contributor and commits time (works in VS Code if GitLens extenson is used)
+9. Create change players points functionality
+8. Create end point /change-player-points
+7. Create change teams points functionality
+6. Create end point /change-team-points
 5. End point /players returns all data from Players table
 4. Create end point /players
 3. Create table players
