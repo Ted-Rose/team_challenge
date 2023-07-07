@@ -9,7 +9,7 @@ import "./TeamPoints.css";
 
 const TeamPoints = (props) => {
   const [teams, setTeams] = useState([]); // State for team data
-  const [selectedTID, setSelectedTeamId] = useState(1); // State for selected team ID
+  const [selectedID, setSelectedID] = useState(1); // State for selected team ID
   const [authorized, setAuthorized] = useState(false); // State for authorization status
   const location = useLocation(); // Using location from React Router DOM to get token
   // const token = location.state?.token; // Extracting token from location state
@@ -22,14 +22,11 @@ const TeamPoints = (props) => {
   
   console.log("Token: ", props.token)
   // Function to change points of a team
-  const changePoints = async (action, value) => {
-    const url =
-      action === "add"
-        ? "http://localhost:8000/add"
-        : "http://localhost:8000/subtract";
+  const changePoints = async (value) => {
+    const url = "http://localhost:8000/change-team-points";
 
     const data = {
-      ID: selectedTID,
+      ID: selectedID,
       Value: value,
     };
 
@@ -46,7 +43,7 @@ const TeamPoints = (props) => {
       // Checking if request was successful
       if (response.ok) {
         console.log(
-          `Data changed successfully for team with TID ${selectedTID}`
+          `Data changed successfully for team with TID ${selectedID}`
         );
       } else {
         console.log("Failed to change data. Status:", response.status);
@@ -104,10 +101,7 @@ const TeamPoints = (props) => {
                     value > 0 ? "btn-outline-success" : "btn-outline-danger"
                   }`}
                   onClick={() =>
-                    changePoints(
-                      value > 0 ? "add" : "subtract",
-                      Math.abs(value)
-                    )
+                    changePoints(Math.abs(value))
                   }
                 >
                   {value > 0 ? "+" : "-"} {Math.abs(value)}
@@ -117,15 +111,15 @@ const TeamPoints = (props) => {
           </div>
           {!authorized && <h2>Nepieciešams atkārtoti autorizēties!</h2>}
 
-          {teams.map(({ ID, TID, Name, Value }) => (
+          {teams.map(({ ID, Name, Points }) => (
             <PointsControl
               key={ID}
               ID={ID}
-              TID={TID}
-              count={Value}
+              // TID={TID}
+              count={Points}
               teamName={Name}
-              changeUpdatedCheckedState={setSelectedTeamId}
-              selectedState={selectedTID === ID ? "selected" : "unselected"}
+              changeCheckedState={setSelectedID}
+              selectedState={selectedID === ID ? "selected" : "unselected"}
             />
           ))}
         </div>

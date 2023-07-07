@@ -17,13 +17,10 @@ const Trading = () => {
   }, []);
 
   // Function to change points for a player
-  const changePoints = async (action, Value) => {
+  const changePoints = async (Value) => {
     console.log("Current serial is: ");
     console.log(Nfc);
-    const url =
-    action === "add"
-      ? "http://localhost:8000/add-to-players"
-      : "http://localhost:8000/subtract-from-players";
+    const url = "http://localhost:8000/change-player-points";
     // const playerId = player[0].id;
     try {
       const response = await fetch(url, {
@@ -129,10 +126,7 @@ const Trading = () => {
                     Value > 0 ? "btn-outline-success" : "btn-outline-danger"
                   }`}
                   onClick={() =>
-                    changePoints(
-                      Value > 0 ? "add" : "subtract",
-                      Math.abs(Value)
-                    )
+                    changePoints(Math.abs(Value))
                   }
                 >
                   {Value > 0 ? "+" : "-"} {Math.abs(Value)}
