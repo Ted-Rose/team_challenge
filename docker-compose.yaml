@@ -1,23 +1,65 @@
-version: '3'
+version: '3.8'
 services:
-  db:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 212314fXjE96zCPscH
-      MYSQL_DATABASE: team_challenge
-      MYSQL_USER: master
-      MYSQL_PASSWORD: 21231x2314fXjdE96zCPscH
+  main:
+    container_name: Serve
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan serve --host=0.0.0.0'
     volumes:
-      - ./data:/var/lib/mysql
+      - .:/app
+    ports:
+      - 8000:8000
+
+  queue:
+    container_name: Queue
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan queue:work'
+    depends_on:
+      - db
+
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: Database
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_ROOT: "root"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - db:/var/lib/mysql
     ports:
       - 3307:3306
 
-  # backend:
-  #   build:
-  #     context: ./Backend
-  #     dockerfile: Dockerfile
+  # mailpit:
+  #   image: axllent/mailpit
+  #   container_name: MailPit
   #   ports:
-  #     - 80:80
+  #     - "1025:1025"
+  #     - "8025:8025"
+  #   networks:
+  #     - laravel-exa
+
+  # fe:
+  #   build:
+  #     context: Frontend
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - '3000:3000'
   #   volumes:
-  #     - ./Backend/storage/docker_files:/var/www/html/Backend/storage/docker_files
+  #   - './Frontend:/fe'
+  #   - '/fe/node_modules'
+  #   environment:
+  #     - NODE_ENV=development
+
+networks:
+  laravel-exa:
+    driver: bridge
+
+volumes:
+  db:
+    driver: local
