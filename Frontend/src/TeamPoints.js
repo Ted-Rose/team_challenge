@@ -19,15 +19,15 @@ const TeamPoints = (props) => {
   useEffect(() => {
     GetNewPoints();
   }, []);
-  
+
   console.log("Token: ", props.token)
   // Function to change points of a team
   const changePoints = async (value) => {
-    const url = "http://localhost:8000/change-team-points";
+    const url = "http://127.0.0.1:8000/change-team-points";
 
     const data = {
-      ID: selectedID,
-      Value: value,
+      id: selectedID,
+      points: value,
     };
 
     try {
@@ -57,20 +57,21 @@ const TeamPoints = (props) => {
 
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
-    const url = "http://localhost:8000/teams";
+    const url = "http://127.0.0.1:8000/teams";
 
     try {
       const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${props.token}`,
+        // },
       });
 
       if (response.ok) {
         setAuthorized(true);
         const data = await response.json();
-        if (Array.isArray(data.teams)) {
-          setTeams(data.teams);
+        console.log(data);
+        if (Array.isArray(data)) {
+          setTeams(data);
         } else {
           console.log("Response data is not an array:", data);
         }
@@ -111,15 +112,15 @@ const TeamPoints = (props) => {
           </div>
           {!authorized && <h2>Nepieciešams atkārtoti autorizēties!</h2>}
 
-          {teams.map(({ ID, Name, Points }) => (
+          {teams.map(({ id, name, points }) => (
             <PointsControl
-              key={ID}
-              ID={ID}
+              key={id}
+              ID={id}
               // TID={TID}
-              count={Points}
-              teamName={Name}
+              count={points}
+              teamName={name}
               changeCheckedState={setSelectedID}
-              selectedState={selectedID === ID ? "selected" : "unselected"}
+              selectedState={selectedID === id ? "selected" : "unselected"}
             />
           ))}
         </div>

@@ -21,7 +21,7 @@ Route::prefix('teams')->group(function () {
 });
 
 Route::prefix('change-team-points')->group(function () {
-    Route::get('/', [TeamsController::class, 'changePoints']);
+    Route::post('/', [TeamsController::class, 'changePoints']);
 });
 
 Route::prefix('players')->group(function () {

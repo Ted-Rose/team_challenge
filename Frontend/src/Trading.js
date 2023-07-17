@@ -46,7 +46,7 @@ const Trading = () => {
   const getNewPoints = async () => {
     // const url =
     //   "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
-    const url = "http://localhost:8000/players";
+    const url = "http://127.0.0.1:8000/players";
 
     // const data = {
     //   Nfc: Nfc,

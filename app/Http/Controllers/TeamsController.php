@@ -31,30 +31,30 @@ class TeamsController extends Controller
     {
         $id = $request->input('id');
         $points = $request->input('points');
-    
+
         Log::info("Updating points for team with ID: $id. Points change: $points");
-    
+
         if (!is_numeric($points)) {
             return response()->json(['message' => 'Invalid points value'], 400);
         }
-    
+
         $team = Team::find($id);
-    
+
         if (!$team) {
             return response()->json(['message' => 'Team not found'], 404);
         }
-    
+
         $currentPoints = $team->points;
         $newPoints = $currentPoints + $points;
         $message = 'Points added successfully';
-    
+
         // Update points for all players with the same teams_id
         Player::where('teams_id', $id)->update(['points' => \DB::raw("points + $points")]);
-    
+
         $team->points = $newPoints;
         $team->save();
-    
+
         return response()->json(['message' => $message, 'team' => $team], 200);
     }
-    
+
 }
