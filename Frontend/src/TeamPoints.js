@@ -24,7 +24,7 @@ const TeamPoints = (props) => {
   // Function to change points of a team
   const changePoints = async (value) => {
     const url = "http://127.0.0.1:8000/change-team-points";
-
+    console.log(value);
     const data = {
       id: selectedID,
       points: value,
@@ -102,7 +102,7 @@ const TeamPoints = (props) => {
                     value > 0 ? "btn-outline-success" : "btn-outline-danger"
                   }`}
                   onClick={() =>
-                    changePoints(Math.abs(value))
+                    changePoints(value)
                   }
                 >
                   {value > 0 ? "+" : "-"} {Math.abs(value)}
