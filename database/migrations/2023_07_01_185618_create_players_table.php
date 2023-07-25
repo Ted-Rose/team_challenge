@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->integer('points')->default(0);
             $table->string('nfc_number', 255);
+            $table->string('password', 255);
             $table->unsignedBigInteger('teams_id');
             $table->timestamps();
 

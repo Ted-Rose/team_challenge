@@ -7,8 +7,12 @@ import Nfc from "./Nfc";
 
 const Trading = () => {
   const [player, setPlayer] = useState(null);
+  const [playersArray, setPlayersArray] = useState(null);
   const [authorized, setAuthorized] = useState(false);
   const [nfcNumber, setNfcNumber] = useState("eqwe123"); // State for NFC cards serial number
+  const [getPlayerMethod, setGetPlayerMethod] = useState("nfc");
+  const [playerName, setPlayerName] = useState("");
+  const [playerPassword, setPlayerPassword] = useState("");
   const location = useLocation(); // Using location from React Router DOM to get token
 
   useEffect(() => {
@@ -61,7 +65,7 @@ const Trading = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
+          // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
           // Authorization: `Bearer ${token}`,
         }
     });
@@ -71,6 +75,7 @@ const Trading = () => {
         setAuthorized(true);
         const data = await response.json();
         if (Array.isArray(data)) {
+          setPlayersArray(data);
           await getPlayerByNfcSerializer(nfcNumber, data);
         } else {
           console.log("Response data is not an array:", data);
@@ -85,12 +90,24 @@ const Trading = () => {
   };
 
   const getPlayerByNfcSerializer = async (nfcSerializer, rawPlayerData) => {
-    if (Array.isArray(rawPlayerData)) {
       const player = rawPlayerData.find((player) => player.nfc_number === nfcSerializer);
       setPlayer(player);
       return
-    }
-    return null;
+  };
+
+  const handleCredentials = (e) => {
+    e.preventDefault();
+    getPlayerByName();
+
+    return
+  }
+
+  const getPlayerByName = async (name, password) => {
+      const player = playersArray.find((player) =>
+        player.playerName === name && player.playerPassword === password);
+      setPlayer(player);
+      setGetPlayerMethod("nfc")
+      return
   };
 
 
@@ -101,10 +118,33 @@ const Trading = () => {
       <main className="container">
         <div className="bg-light p-5 rounded">
           <div className="text-center">
+            
             <Nfc
               // changeSerializer={setNfcNumber}
               // changeMessage={setMessage}
             />
+           
+            <button
+              onClick={() => setGetPlayerMethod("name")}
+              className="w-50 btn btn-med btn-primary"
+            >
+              Ievadīt vārdu un paroli
+            </button>
+            {getPlayerMethod === "name" ? (
+            <form onSubmit={handleCredentials}>
+              <label>Vārds</label>
+              <input
+              type="text"
+              onChange={(e) => setPlayerName(e.target.value)}
+              />
+              <label>Parole</label>
+              <input
+              type="text"
+              onChange={(e) => setPlayerPassword(e.target.value)}
+              />
+              <button type="submit" className="w-50 btn btn-med btn-primary">Submit</button>
+            </form>
+             ) : null}
           {player ? (
             <>
               <h2>{player.name}</h2>

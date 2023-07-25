@@ -18,31 +18,37 @@ class PlayersTableSeeder extends Seeder
             [
                 "name" => "Bear",
                 "nfc_number" => "123",
+                "password" => "Bear",
                 "teams_id" => 1,
             ],
             [
                 "name" => "Rabbit",
                 "nfc_number" => "123",
+                "password" => "Rabbit",
                 "teams_id" => 1,
             ],
             [
                 "name" => "Dolphin",
                 "nfc_number" => "123qeqw",
+                "password" => "Dolphin",
                 "teams_id" => 2,
             ],
             [
                 "name" => "Camel",
                 "nfc_number" => "eqwe123",
+                "password" => "Camel",
                 "teams_id" => 3,
             ],
             [
                 "name" => "Python",
                 "nfc_number" => "eqwe21",
+                "password" => "Python",
                 "teams_id" => 4,
             ],
             [
                 "name" => "Python",
                 "nfc_number" => "eqwe21",
+                "password" => "Python",
                 "teams_id" => 5,
             ],
         ];
