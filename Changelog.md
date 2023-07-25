@@ -5,8 +5,7 @@
 4. Dockerize React
 5. Deploy app on Azure
 6. Backend bugfix - disable player creation with non existing teams_id
-
-
+7. Full stack bugfix - when requesting data for a single player don't return all player data from backend
 
 # Lower priority ToDoList
 - Fix buggy Laravel dockerization

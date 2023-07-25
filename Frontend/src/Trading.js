@@ -9,7 +9,7 @@ const Trading = () => {
   const [player, setPlayer] = useState(null);
   const [playerData, setPlayerData] = useState([]);
   const [authorized, setAuthorized] = useState(false);
-  const [Nfc, setNfc] = useState("asdfg456"); // State for NFC cards serial number
+  const [nfcNumber, setNfcNumber] = useState("eqwe123"); // State for NFC cards serial number
   const location = useLocation(); // Using location from React Router DOM to get token
 
   useEffect(() => {
@@ -19,13 +19,13 @@ const Trading = () => {
   // Function to change points for a player
   const changePoints = async (Value) => {
     console.log("Current serial is: ");
-    console.log(Nfc);
+    console.log(nfcNumber);
     const url = "http://localhost:8000/change-player-points";
     // const playerId = player[0].id;
     try {
       const response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify({ Nfc, Value }),
+        body: JSON.stringify({ nfcNumber, Value }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
@@ -49,7 +49,7 @@ const Trading = () => {
     const url = "http://127.0.0.1:8000/players";
 
     // const data = {
-    //   Nfc: Nfc,
+    //   nfcNumber: nfcNumber,
     //   Value: 10
     // };
 
@@ -65,19 +65,12 @@ const Trading = () => {
 
       // Checking if request was successful
       if (response.ok) {
-        console.log(
-          `Successfully fetched player with NfcSerializer ${Nfc}`
-        );
         setAuthorized(true);
         const data = await response.json();
-        console.log(data);
-        if (Array.isArray(data.players)) {
-          console.log("I am array!");
-          setPlayerData(data.players);
-          console.log(data.players);
-          const updatedPlayer = getPlayerDataByNfcSerializer(Nfc, data.players);
-          console.log(updatedPlayer);
-          setPlayer(updatedPlayer);
+        if (Array.isArray(data)) {
+          setPlayerData(data);
+          await getPlayerByNfcSerializer(nfcNumber, data);
+
         } else {
           console.log("Response data is not an array:", data);
         }
@@ -90,13 +83,11 @@ const Trading = () => {
     }
   };
 
-  const getPlayerDataByNfcSerializer = (nfcSerializer, rawPlayerData) => {
-    console.log("nfcSerializer:", nfcSerializer);
-    if (Array.isArray(playerData)) {
-      console.log("playerData: ",playerData)
-      const player = rawPlayerData.find((player) => player.NFCSerializer === nfcSerializer);
-      console.log("player:", player)
-      return player ? { name: player.Name, points: player.PlayerPoints } : null;
+  const getPlayerByNfcSerializer = async (nfcSerializer, rawPlayerData) => {
+    if (Array.isArray(rawPlayerData)) {
+      const player = rawPlayerData.find((player) => player.nfc_number === nfcSerializer);
+      setPlayer(player);
+      return
     }
     return null;
   };
@@ -110,12 +101,17 @@ const Trading = () => {
         <div className="bg-light p-5 rounded">
           <div className="text-center">
             <Nfc
-              changeSerializer={setNfc}
+              // changeSerializer={setNfcNumber}
               // changeMessage={setMessage}
             />
-            <h2>{player?.name}</h2>
-            <h3>{player?.points} punkti</h3>
-            <h3>Serial: {Nfc}</h3>
+          {player ? (
+            <>
+              <h2>{player.name}</h2>
+              <h3>{player.points} punkti</h3>
+            </>
+          ) : (
+            <h2>Izvēlieties dalībnieku</h2>
+          )}
 
             <div className="btn-group-lg center">
               {[-10, -5, -1, 1, 5, 10].map((Value) => (
