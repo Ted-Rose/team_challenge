@@ -44,13 +44,12 @@ class PlayersController extends Controller
         }
 
         $currentPoints = $player->points;
-
-        // Calculate the new points
         $newPoints = $currentPoints + $points;
+        $message = 'Points added successfully';
 
         $player->points = $newPoints;
         $player->save();
 
-        return response()->json(['message' => 'Points updated successfully', 'player' => $player], 200);
+        return response()->json(['message' => $message, 'player' => $player], 200);
     }
 }

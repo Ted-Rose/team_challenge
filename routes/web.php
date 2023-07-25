@@ -30,5 +30,5 @@ Route::prefix('players')->group(function () {
 });
 
 Route::prefix('change-player-points')->group(function () {
-    Route::get('/', [PlayersController::class, 'changePoints']);
+    Route::post('/', [PlayersController::class, 'changePoints']);
 });

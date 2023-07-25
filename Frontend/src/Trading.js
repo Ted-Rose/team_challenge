@@ -7,7 +7,6 @@ import Nfc from "./Nfc";
 
 const Trading = () => {
   const [player, setPlayer] = useState(null);
-  const [playerData, setPlayerData] = useState([]);
   const [authorized, setAuthorized] = useState(false);
   const [nfcNumber, setNfcNumber] = useState("eqwe123"); // State for NFC cards serial number
   const location = useLocation(); // Using location from React Router DOM to get token
@@ -20,15 +19,19 @@ const Trading = () => {
   const changePoints = async (Value) => {
     console.log("Current serial is: ");
     console.log(nfcNumber);
-    const url = "http://localhost:8000/change-player-points";
+    const url = "http://127.0.0.1:8000/change-player-points";
     // const playerId = player[0].id;
+    const data = {
+      id: player.id,
+      points: Value,
+    };
     try {
       const response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify({ nfcNumber, Value }),
+        body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
+          // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
         },
       });
       if (response.ok) {
@@ -68,9 +71,7 @@ const Trading = () => {
         setAuthorized(true);
         const data = await response.json();
         if (Array.isArray(data)) {
-          setPlayerData(data);
           await getPlayerByNfcSerializer(nfcNumber, data);
-
         } else {
           console.log("Response data is not an array:", data);
         }
@@ -122,7 +123,7 @@ const Trading = () => {
                     Value > 0 ? "btn-outline-success" : "btn-outline-danger"
                   }`}
                   onClick={() =>
-                    changePoints(Math.abs(Value))
+                    changePoints(Value)
                   }
                 >
                   {Value > 0 ? "+" : "-"} {Math.abs(Value)}
