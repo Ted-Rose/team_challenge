@@ -21,8 +21,10 @@ const Trading = () => {
 
   // Function to change points for a player
   const changePoints = async (Value) => {
+    // Local network
+    const url = "http://MASKED_IP_ADDRESS:8000/change-player-points";
     // Local
-    const url = "http://127.0.0.1:8000/change-player-points";
+    // const url = "http://127.0.0.1:8000/change-player-points";
     // Docker
     // const url = "http://0.0.0.0:8000/change-player-points";
     const data = {
@@ -52,8 +54,10 @@ const Trading = () => {
 
   // Fetch newest player points
   const getNewPoints = async () => {
+    // Local network
+    const url = "http://MASKED_IP_ADDRESS:8000/players";
     // Local
-    const url = "http://127.0.0.1:8000/players";
+    // const url = "http://127.0.0.1:8000/players";
     // Docker
     // const url = "http://0.0.0.0:8000/players";
     // Dummy API
