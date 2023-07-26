@@ -54,7 +54,6 @@ const Nfc = (props) => {
           log(`> Serial Number: ${serialNumber}`);
           props.changeSerial({ serialNumber });
           log(`> Records: (${message.records.length})`);
-          // props.changeMessage({ message });
         });
       } catch (error) {
         log("Argh! " + error);

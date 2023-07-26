@@ -8,9 +8,10 @@ import Nfc from "./Nfc";
 const Trading = () => {
   const [player, setPlayer] = useState(null);
   const [playersArray, setPlayersArray] = useState(null);
+  const [formSubmitted, setFormSubmitted] = useState(true)
   const [authorized, setAuthorized] = useState(false);
   const [nfcNumber, setNfcNumber] = useState("eqwe123"); // State for NFC cards serial number
-  const [getPlayerMethod, setGetPlayerMethod] = useState("nfc");
+  const [getPlayerMethod, setGetPlayerMethod] = useState("");
   const [playerName, setPlayerName] = useState("");
   const [playerPassword, setPlayerPassword] = useState("");
   const location = useLocation(); // Using location from React Router DOM to get token
@@ -21,10 +22,7 @@ const Trading = () => {
 
   // Function to change points for a player
   const changePoints = async (Value) => {
-    console.log("Current serial is: ");
-    console.log(nfcNumber);
     const url = "http://127.0.0.1:8000/change-player-points";
-    // const playerId = player[0].id;
     const data = {
       id: player.id,
       points: Value,
@@ -35,12 +33,19 @@ const Trading = () => {
         body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-          // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
         },
       });
+
       if (response.ok) {
         console.log("Points changed successfully");
         await getNewPoints();
+        if (getPlayerMethod === "nfc") {
+          console.log(getPlayerMethod);
+          getPlayerByNfcSerializer(playersArray)
+        }
+        if (getPlayerMethod === "name") {
+          getPlayerByName(playersArray)
+        }
       } else {
         console.log("Failed to change points. Status:", response.status);
       }
@@ -54,29 +59,19 @@ const Trading = () => {
     // const url =
     //   "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
     const url = "http://127.0.0.1:8000/players";
-
-    // const data = {
-    //   nfcNumber: nfcNumber,
-    //   Value: 10
-    // };
-
     try {
       const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
-          // Authorization: `Bearer ${token}`,
         }
     });
 
-      // Checking if request was successful
       if (response.ok) {
         setAuthorized(true);
         const data = await response.json();
         if (Array.isArray(data)) {
           setPlayersArray(data);
-          await getPlayerByNfcSerializer(nfcNumber, data);
         } else {
           console.log("Response data is not an array:", data);
         }
@@ -89,26 +84,40 @@ const Trading = () => {
     }
   };
 
-  const getPlayerByNfcSerializer = async (nfcSerializer, rawPlayerData) => {
-      const player = rawPlayerData.find((player) => player.nfc_number === nfcSerializer);
+  const changeNfcNumber = (nfcNumber) => {
+    setNfcNumber(nfcNumber);
+    return
+  }
+
+  const getPlayerByNfcSerializer = async (playersArray) => {
+    if (playersArray && playersArray.length > 0) {
+      const player = playersArray.find((player) => player.nfc_number === nfcNumber);
       setPlayer(player);
-      return
+    } else {
+      console.log("No players found in the array");
+    }
   };
 
   const handleCredentials = (e) => {
     e.preventDefault();
-    getPlayerByName();
-
-    return
+    setFormSubmitted(true);
+    getPlayerByName(playersArray);
   }
 
-  const getPlayerByName = async (name, password) => {
+  const getPlayerByName = (playersArray) => {
+    if (playersArray && playersArray.length > 0) {
       const player = playersArray.find((player) =>
-        player.playerName === name && player.playerPassword === password);
+        player.playerName === playerName && player.playerPassword === playerPassword);
       setPlayer(player);
-      setGetPlayerMethod("nfc")
-      return
+    } else {
+      console.log("No players found in the array");
+    }
   };
+
+  const createPlayerForm = async () => {
+    setGetPlayerMethod("name");
+    setFormSubmitted(false);
+  }
 
 
 
@@ -118,19 +127,25 @@ const Trading = () => {
       <main className="container">
         <div className="bg-light p-5 rounded">
           <div className="text-center">
-            
+            {player ? (
+              <>
+              <h3>Atrastais dalībnieks:</h3>
+                <h4>{player.name}</h4>
+                <h4>{player.points} EUR</h4>
+              </>
+            ) : (
+              <h3>Izvēlieties dalībnieku skenējot NFC karti vai ievadot vārdu un paroli</h3>
+            )}
             <Nfc
-              // changeSerializer={setNfcNumber}
-              // changeMessage={setMessage}
+              changeSerializer={changeNfcNumber}
             />
-           
             <button
-              onClick={() => setGetPlayerMethod("name")}
+              onClick={() => createPlayerForm()}
               className="w-50 btn btn-med btn-primary"
             >
               Ievadīt vārdu un paroli
             </button>
-            {getPlayerMethod === "name" ? (
+            {formSubmitted === false ? (
             <form onSubmit={handleCredentials}>
               <label>Vārds</label>
               <input
@@ -142,17 +157,9 @@ const Trading = () => {
               type="text"
               onChange={(e) => setPlayerPassword(e.target.value)}
               />
-              <button type="submit" className="w-50 btn btn-med btn-primary">Submit</button>
+              <button type="submit" className="w-50 btn btn-med btn-primary">Aiziet!</button>
             </form>
              ) : null}
-          {player ? (
-            <>
-              <h2>{player.name}</h2>
-              <h3>{player.points} punkti</h3>
-            </>
-          ) : (
-            <h2>Izvēlieties dalībnieku</h2>
-          )}
 
             <div className="btn-group-lg center">
               {[-10, -5, -1, 1, 5, 10].map((Value) => (
