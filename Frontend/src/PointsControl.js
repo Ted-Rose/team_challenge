@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 function PointsControl(props) {
   // Event handler for checkbox change

@@ -1,30 +1,21 @@
-import React, { useContext, useState, useEffect } from "react";
-// import React, {useState} from "react";
-
-import { TokenContext } from "./TokenContext";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import PointsControl from "./PointsControl";
-import { useLocation } from "react-router-dom";
 import "./TeamPoints.css";
 
 const TeamPoints = (props) => {
   const [teams, setTeams] = useState([]); // State for team data
   const [selectedID, setSelectedID] = useState(1); // State for selected team ID
   const [authorized, setAuthorized] = useState(false); // State for authorization status
-  const location = useLocation(); // Using location from React Router DOM to get token
-  // const token = location.state?.token; // Extracting token from location state
-  // const { token } = useContext(TokenContext); // Access the token value from the context
 
   // useEffect hook to fetch teams data on component mount
   useEffect(() => {
     GetNewPoints();
   }, []);
 
-  console.log("Token: ", props.token)
   // Function to change points of a team
   const changePoints = async (value) => {
     const url = "http://127.0.0.1:8000/change-team-points";
-    console.log(value);
     const data = {
       id: selectedID,
       points: value,
@@ -40,10 +31,9 @@ const TeamPoints = (props) => {
         body: JSON.stringify(data),
       });
 
-      // Checking if request was successful
       if (response.ok) {
         console.log(
-          `Data changed successfully for team with TID ${selectedID}`
+          `Data changed successfully for team with ID ${selectedID}`
         );
       } else {
         console.log("Failed to change data. Status:", response.status);
@@ -60,16 +50,11 @@ const TeamPoints = (props) => {
     const url = "http://127.0.0.1:8000/teams";
 
     try {
-      const response = await fetch(url, {
-        // headers: {
-        //   Authorization: `Bearer ${props.token}`,
-        // },
-      });
+      const response = await fetch(url);
 
       if (response.ok) {
         setAuthorized(true);
         const data = await response.json();
-        console.log(data);
         if (Array.isArray(data)) {
           setTeams(data);
         } else {
@@ -92,7 +77,7 @@ const TeamPoints = (props) => {
       <main className="container">
         <div className="bg-light p-5 rounded">
           <div className="text-center">
-            <p className="lead">Pievieno vai noņem punktus komandai</p>
+            <h3>Pievieno vai noņem punktus komandai</h3>
             <div className="btn-group-lg center lg-1">
               {[-10, -5, -1, +1, +5, +10].map((value) => (
                 <button
@@ -116,7 +101,6 @@ const TeamPoints = (props) => {
             <PointsControl
               key={id}
               ID={id}
-              // TID={TID}
               count={points}
               teamName={name}
               changeCheckedState={setSelectedID}

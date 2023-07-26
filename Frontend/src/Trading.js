@@ -14,7 +14,6 @@ const Trading = () => {
   const [getPlayerMethod, setGetPlayerMethod] = useState("");
   const [playerName, setPlayerName] = useState("");
   const [playerPassword, setPlayerPassword] = useState("");
-  const location = useLocation(); // Using location from React Router DOM to get token
 
   useEffect(() => {
     getNewPoints();
