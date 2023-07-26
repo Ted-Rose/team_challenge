@@ -15,7 +15,10 @@ const TeamPoints = (props) => {
 
   // Function to change points of a team
   const changePoints = async (value) => {
+    // Local
     const url = "http://127.0.0.1:8000/change-team-points";
+    // Docker
+    // const url = "http://0.0.0.0:8000/change-team-points";
     const data = {
       id: selectedID,
       points: value,
@@ -47,7 +50,10 @@ const TeamPoints = (props) => {
 
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
+    // Local
     const url = "http://127.0.0.1:8000/teams";
+    // Docker
+    // const url = "http://0.0.0.0:8000/teams";
 
     try {
       const response = await fetch(url);

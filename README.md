@@ -1,7 +1,7 @@
 # Team Challenge
 A game for teams of all ages developed by Tedis
 
-# Setup instructions
+# Setup for development instructions
 1. Rename `.env.example` to `.env`
 2. `docker-compose up --build`
 3. Comment out `For docker-compose up` in `.env`
@@ -13,4 +13,9 @@ A game for teams of all ages developed by Tedis
 7. Comment in `For Laravel app` in `.env`
 8. Visit end points (http://localhost:8000/players for example)
 
-
+# Setup for local deployment instructions
+1. Rename `.env.example` to `.env`
+6. Comment out `For terminal` in `.env`
+6. Comment out `For Laravel app` in `.env`
+7. Comment in `For docker-compose up` in `.env`
+2. `docker-compose up --build`

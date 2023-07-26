@@ -46,10 +46,22 @@ class PlayersTableSeeder extends Seeder
                 "teams_id" => 4,
             ],
             [
-                "name" => "Python",
-                "nfc_number" => "eqwe21",
-                "password" => "Python",
-                "teams_id" => 5,
+                "name" => "Tedis",
+                "nfc_number" => "1234",
+                "password" => "Tedis",
+                "teams_id" => 1,
+            ],
+            [
+                "name" => "Dāvids",
+                "nfc_number" => "04:89:D0:3A:4B:11:90",
+                "password" => "Davids",
+                "teams_id" => 2,
+            ],
+            [
+                "name" => "Sāra",
+                "nfc_number" => "5678",
+                "password" => "Sara",
+                "teams_id" => 3,
             ],
         ];
 

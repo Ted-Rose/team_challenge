@@ -21,7 +21,10 @@ const Trading = () => {
 
   // Function to change points for a player
   const changePoints = async (Value) => {
+    // Local
     const url = "http://127.0.0.1:8000/change-player-points";
+    // Docker
+    // const url = "http://0.0.0.0:8000/change-player-points";
     const data = {
       id: player.id,
       points: Value,
@@ -49,9 +52,12 @@ const Trading = () => {
 
   // Fetch newest player points
   const getNewPoints = async () => {
-    // const url =
-    //   "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
+    // Local
     const url = "http://127.0.0.1:8000/players";
+    // Docker
+    // const url = "http://0.0.0.0:8000/players";
+    // Dummy API
+    // const url = "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
     try {
       const response = await fetch(url, {
         method: "GET",
