@@ -10,7 +10,7 @@ const Trading = () => {
   const [playersArray, setPlayersArray] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(true)
   const [authorized, setAuthorized] = useState(false);
-  const [nfcNumber, setNfcNumber] = useState("eqwe123"); // State for NFC cards serial number
+  const [nfcNumber, setNfcNumber] = useState(""); // State for NFC cards serial number
   const [getPlayerMethod, setGetPlayerMethod] = useState("");
   const [playerName, setPlayerName] = useState("");
   const [playerPassword, setPlayerPassword] = useState("");
@@ -39,13 +39,7 @@ const Trading = () => {
       if (response.ok) {
         console.log("Points changed successfully");
         await getNewPoints();
-        if (getPlayerMethod === "nfc") {
-          console.log(getPlayerMethod);
-          getPlayerByNfcSerializer(playersArray)
-        }
-        if (getPlayerMethod === "name") {
-          getPlayerByName(playersArray)
-        }
+
       } else {
         console.log("Failed to change points. Status:", response.status);
       }
@@ -72,6 +66,13 @@ const Trading = () => {
         const data = await response.json();
         if (Array.isArray(data)) {
           setPlayersArray(data);
+          if (getPlayerMethod === "nfc") {
+            console.log(getPlayerMethod);
+            getPlayerByNfcSerializer(data)
+          }
+          if (getPlayerMethod === "name") {
+            getPlayerByName(data)
+          }
         } else {
           console.log("Response data is not an array:", data);
         }
@@ -89,9 +90,9 @@ const Trading = () => {
     return
   }
 
-  const getPlayerByNfcSerializer = async (playersArray) => {
-    if (playersArray && playersArray.length > 0) {
-      const player = playersArray.find((player) => player.nfc_number === nfcNumber);
+  const getPlayerByNfcSerializer = async (freshPlayersArray) => {
+    if (freshPlayersArray && freshPlayersArray.length > 0) {
+      const player = freshPlayersArray.find((player) => player.nfc_number === nfcNumber);
       setPlayer(player);
     } else {
       console.log("No players found in the array");
@@ -104,10 +105,10 @@ const Trading = () => {
     getPlayerByName(playersArray);
   }
 
-  const getPlayerByName = (playersArray) => {
-    if (playersArray && playersArray.length > 0) {
-      const player = playersArray.find((player) =>
-        player.playerName === playerName && player.playerPassword === playerPassword);
+  const getPlayerByName = (freshPlayersArray) => {
+    if (freshPlayersArray && freshPlayersArray.length > 0) {
+      const player = freshPlayersArray.find((player) =>
+        player.name === playerName && player.password === playerPassword);
       setPlayer(player);
     } else {
       console.log("No players found in the array");
