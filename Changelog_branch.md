@@ -2,6 +2,7 @@
 Create MVP for BE using Laravel that can accept FE requests
 
 # ToDoList
+1. Make feature/enabled_authorization
 
 
 # Lower priority ToDoList
