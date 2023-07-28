@@ -2,7 +2,9 @@
 A game for teams of all ages developed by Tedis
 
 # Setup for development instructions
-1. Rename `.env.example` to `.env`
+1. Rename `.env.template` to `.env`
+    1. Rename `urls.template.json` to `urls.json`
+    2. Update `base_url` in `urls.json` to BE base url
 2. `docker-compose up --build`
 3. Comment out `For docker-compose up` in `.env`
 4. Comment in `For terminal` in `.env`
@@ -14,7 +16,9 @@ A game for teams of all ages developed by Tedis
 8. Visit end points (http://localhost:8000/players for example)
 
 # Setup for local deployment instructions
-1. Rename `.env.example` to `.env`
+1. Rename `.env.template` to `.env`
+    1. Rename `urls.template.json` to `urls.json`
+    2. Update `base_url` in `urls.json` to BE base url
 2. Comment in `For Laravel app` in `.env`
 3. Comment out `For terminal` in `.env`
 4. Comment out `For docker-compose up` in `.env`

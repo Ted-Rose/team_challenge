@@ -1,5 +1,6 @@
 data/
 Frontend/node_modules/
+Frontend/src/urls.json
 Frontend/yarn.lock
 .env
 /.phpunit.cache

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useLocation } from "react-router-dom";
 import "./Trading.css";
 import Navbar from "./Navbar";
 import Nfc from "./Nfc";
+import urls from "./urls.json";
+
 
 const Trading = () => {
   const [player, setPlayer] = useState(null);
@@ -22,11 +23,8 @@ const Trading = () => {
   // Function to change points for a player
   const changePoints = async (Value) => {
     // Local network
-    const url = "http://192.168.43.45:8000/change-player-points";
-    // Local
-    // const url = "http://127.0.0.1:8000/change-player-points";
-    // Docker
-    // const url = "http://0.0.0.0:8000/change-player-points";
+    const url = urls[0].base_url + ":8000/change-player-points";
+    
     const data = {
       id: player.id,
       points: Value,
@@ -55,7 +53,7 @@ const Trading = () => {
   // Fetch newest player points
   const getNewPoints = async () => {
     // Local network
-    const url = "http://192.168.43.45:8000/players";
+    const url = urls[0].base_url + ":8000/players";
     // Local
     // const url = "http://127.0.0.1:8000/players";
     // Docker
