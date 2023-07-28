@@ -1,42 +1,47 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useLocation } from "react-router-dom";
 import "./Trading.css";
 import Navbar from "./Navbar";
 import Nfc from "./Nfc";
+import urls from "./urls.json";
+
 
 const Trading = () => {
   const [player, setPlayer] = useState(null);
-  const [playerData, setPlayerData] = useState([]);
+  const [playersArray, setPlayersArray] = useState(null);
+  const [formSubmitted, setFormSubmitted] = useState(true)
   const [authorized, setAuthorized] = useState(false);
-  const [Nfc, setNfc] = useState("asdfg456"); // State for NFC cards serial number
-  const location = useLocation(); // Using location from React Router DOM to get token
+  const [nfcNumber, setNfcNumber] = useState(""); // State for NFC cards serial number
+  const [getPlayerMethod, setGetPlayerMethod] = useState("");
+  const [playerName, setPlayerName] = useState("");
+  const [playerPassword, setPlayerPassword] = useState("");
 
   useEffect(() => {
     getNewPoints();
   }, []);
 
   // Function to change points for a player
-  const changePoints = async (action, Value) => {
-    console.log("Current serial is: ");
-    console.log(Nfc);
-    const url =
-    action === "add"
-      ? "http://localhost:8000/add-to-players"
-      : "http://localhost:8000/subtract-from-players";
-    // const playerId = player[0].id;
+  const changePoints = async (Value) => {
+    // Local network
+    const url = urls[0].base_url + ":8000/change-player-points";
+    
+    const data = {
+      id: player.id,
+      points: Value,
+    };
     try {
       const response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify({ Nfc, Value }),
+        body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
         },
       });
+
       if (response.ok) {
         console.log("Points changed successfully");
         await getNewPoints();
+
       } else {
         console.log("Failed to change points. Status:", response.status);
       }
@@ -47,40 +52,34 @@ const Trading = () => {
 
   // Fetch newest player points
   const getNewPoints = async () => {
-    // const url =
-    //   "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
-    const url = "http://localhost:8000/players";
-
-    // const data = {
-    //   Nfc: Nfc,
-    //   Value: 10
-    // };
-
+    // Local network
+    const url = urls[0].base_url + ":8000/players";
+    // Local
+    // const url = "http://127.0.0.1:8000/players";
+    // Docker
+    // const url = "http://0.0.0.0:8000/players";
+    // Dummy API
+    // const url = "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
     try {
       const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciJ9.4SY1fWD_LqSikG8NJjAWIvMQYasbZmAtU9OBZRhI5H0`,
-          // Authorization: `Bearer ${token}`,
         }
     });
 
-      // Checking if request was successful
       if (response.ok) {
-        console.log(
-          `Successfully fetched player with NfcSerializer ${Nfc}`
-        );
         setAuthorized(true);
         const data = await response.json();
-        console.log(data);
-        if (Array.isArray(data.players)) {
-          console.log("I am array!");
-          setPlayerData(data.players);
-          console.log(data.players);
-          const updatedPlayer = getPlayerDataByNfcSerializer(Nfc, data.players);
-          console.log(updatedPlayer);
-          setPlayer(updatedPlayer);
+        if (Array.isArray(data)) {
+          setPlayersArray(data);
+          if (getPlayerMethod === "nfc") {
+            console.log(getPlayerMethod);
+            getPlayerByNfcSerializer(data)
+          }
+          if (getPlayerMethod === "name") {
+            getPlayerByName(data)
+          }
         } else {
           console.log("Response data is not an array:", data);
         }
@@ -93,16 +92,40 @@ const Trading = () => {
     }
   };
 
-  const getPlayerDataByNfcSerializer = (nfcSerializer, rawPlayerData) => {
-    console.log("nfcSerializer:", nfcSerializer);
-    if (Array.isArray(playerData)) {
-      console.log("playerData: ",playerData)
-      const player = rawPlayerData.find((player) => player.NFCSerializer === nfcSerializer);
-      console.log("player:", player)
-      return player ? { name: player.Name, points: player.PlayerPoints } : null;
+  const changeNfcNumber = (nfcNumber) => {
+    setNfcNumber(nfcNumber);
+    return
+  }
+
+  const getPlayerByNfcSerializer = async (freshPlayersArray) => {
+    if (freshPlayersArray && freshPlayersArray.length > 0) {
+      const player = freshPlayersArray.find((player) => player.nfc_number === nfcNumber);
+      setPlayer(player);
+    } else {
+      console.log("No players found in the array");
     }
-    return null;
   };
+
+  const handleCredentials = (e) => {
+    e.preventDefault();
+    setFormSubmitted(true);
+    getPlayerByName(playersArray);
+  }
+
+  const getPlayerByName = (freshPlayersArray) => {
+    if (freshPlayersArray && freshPlayersArray.length > 0) {
+      const player = freshPlayersArray.find((player) =>
+        player.name === playerName && player.password === playerPassword);
+      setPlayer(player);
+    } else {
+      console.log("No players found in the array");
+    }
+  };
+
+  const createPlayerForm = async () => {
+    setGetPlayerMethod("name");
+    setFormSubmitted(false);
+  }
 
 
 
@@ -112,13 +135,39 @@ const Trading = () => {
       <main className="container">
         <div className="bg-light p-5 rounded">
           <div className="text-center">
+            {player ? (
+              <>
+              <h3>Atrastais dalībnieks:</h3>
+                <h4>{player.name}</h4>
+                <h4>{player.points} EUR</h4>
+              </>
+            ) : (
+              <h3>Izvēlieties dalībnieku skenējot NFC karti vai ievadot vārdu un paroli</h3>
+            )}
             <Nfc
-              changeSerializer={setNfc}
-              // changeMessage={setMessage}
+              changeSerializer={changeNfcNumber}
             />
-            <h2>{player?.name}</h2>
-            <h3>{player?.points} punkti</h3>
-            <h3>Serial: {Nfc}</h3>
+            <button
+              onClick={() => createPlayerForm()}
+              className="w-50 btn btn-med btn-primary"
+            >
+              Ievadīt vārdu un paroli
+            </button>
+            {formSubmitted === false ? (
+            <form onSubmit={handleCredentials}>
+              <label>Vārds</label>
+              <input
+              type="text"
+              onChange={(e) => setPlayerName(e.target.value)}
+              />
+              <label>Parole</label>
+              <input
+              type="text"
+              onChange={(e) => setPlayerPassword(e.target.value)}
+              />
+              <button type="submit" className="w-50 btn btn-med btn-primary">Aiziet!</button>
+            </form>
+             ) : null}
 
             <div className="btn-group-lg center">
               {[-10, -5, -1, 1, 5, 10].map((Value) => (
@@ -129,10 +178,7 @@ const Trading = () => {
                     Value > 0 ? "btn-outline-success" : "btn-outline-danger"
                   }`}
                   onClick={() =>
-                    changePoints(
-                      Value > 0 ? "add" : "subtract",
-                      Math.abs(Value)
-                    )
+                    changePoints(Value)
                   }
                 >
                   {Value > 0 ? "+" : "-"} {Math.abs(Value)}

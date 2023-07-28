@@ -1,36 +1,27 @@
-import React, { useContext, useState, useEffect } from "react";
-// import React, {useState} from "react";
-
-import { TokenContext } from "./TokenContext";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import PointsControl from "./PointsControl";
-import { useLocation } from "react-router-dom";
+import urls from "./urls.json";
 import "./TeamPoints.css";
 
 const TeamPoints = (props) => {
   const [teams, setTeams] = useState([]); // State for team data
-  const [selectedTID, setSelectedTeamId] = useState(1); // State for selected team ID
+  const [selectedID, setSelectedID] = useState(1); // State for selected team ID
   const [authorized, setAuthorized] = useState(false); // State for authorization status
-  const location = useLocation(); // Using location from React Router DOM to get token
-  // const token = location.state?.token; // Extracting token from location state
-  // const { token } = useContext(TokenContext); // Access the token value from the context
 
   // useEffect hook to fetch teams data on component mount
   useEffect(() => {
     GetNewPoints();
   }, []);
-  
-  console.log("Token: ", props.token)
+
   // Function to change points of a team
-  const changePoints = async (action, value) => {
-    const url =
-      action === "add"
-        ? "http://localhost:8000/add"
-        : "http://localhost:8000/subtract";
+  const changePoints = async (value) => {
+    // Local network
+    const url = urls[0].base_url + ":8000/change-team-points";
 
     const data = {
-      ID: selectedTID,
-      Value: value,
+      id: selectedID,
+      points: value,
     };
 
     try {
@@ -43,10 +34,9 @@ const TeamPoints = (props) => {
         body: JSON.stringify(data),
       });
 
-      // Checking if request was successful
       if (response.ok) {
         console.log(
-          `Data changed successfully for team with TID ${selectedTID}`
+          `Data changed successfully for team with ID ${selectedID}`
         );
       } else {
         console.log("Failed to change data. Status:", response.status);
@@ -60,20 +50,21 @@ const TeamPoints = (props) => {
 
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
-    const url = "http://localhost:8000/teams";
+    // Local network
+    const url = urls[0].base_url + ":8000/teams";
+    // Local
+    // const url = "http://127.0.0.1:8000/teams";
+    // Docker
+    // const url = "http://0.0.0.0:8000/teams";
 
     try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      });
+      const response = await fetch(url);
 
       if (response.ok) {
         setAuthorized(true);
         const data = await response.json();
-        if (Array.isArray(data.teams)) {
-          setTeams(data.teams);
+        if (Array.isArray(data)) {
+          setTeams(data);
         } else {
           console.log("Response data is not an array:", data);
         }
@@ -94,7 +85,7 @@ const TeamPoints = (props) => {
       <main className="container">
         <div className="bg-light p-5 rounded">
           <div className="text-center">
-            <p className="lead">Pievieno vai noņem punktus komandai</p>
+            <h3>Pievieno vai noņem punktus komandai</h3>
             <div className="btn-group-lg center lg-1">
               {[-10, -5, -1, +1, +5, +10].map((value) => (
                 <button
@@ -104,10 +95,7 @@ const TeamPoints = (props) => {
                     value > 0 ? "btn-outline-success" : "btn-outline-danger"
                   }`}
                   onClick={() =>
-                    changePoints(
-                      value > 0 ? "add" : "subtract",
-                      Math.abs(value)
-                    )
+                    changePoints(value)
                   }
                 >
                   {value > 0 ? "+" : "-"} {Math.abs(value)}
@@ -117,15 +105,14 @@ const TeamPoints = (props) => {
           </div>
           {!authorized && <h2>Nepieciešams atkārtoti autorizēties!</h2>}
 
-          {teams.map(({ ID, TID, Name, Value }) => (
+          {teams.map(({ id, name, points }) => (
             <PointsControl
-              key={ID}
-              ID={ID}
-              TID={TID}
-              count={Value}
-              teamName={Name}
-              changeUpdatedCheckedState={setSelectedTeamId}
-              selectedState={selectedTID === ID ? "selected" : "unselected"}
+              key={id}
+              ID={id}
+              count={points}
+              teamName={name}
+              changeCheckedState={setSelectedID}
+              selectedState={selectedID === id ? "selected" : "unselected"}
             />
           ))}
         </div>

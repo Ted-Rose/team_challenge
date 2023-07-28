@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  # main:
+  #   container_name: Serve
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   command: 'php artisan serve --host=0.0.0.0'
+  #   volumes:
+  #     - .:/app
+  #   ports:
+  #     - 8000:8000
+
+  # queue:
+  #   container_name: Queue
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   command: 'php artisan queue:work'
+  #   depends_on:
+  #     - db
+
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: Database
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_ROOT: "root"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - 3307:3306
+
+  # fe:
+  #   build:
+  #     context: Frontend
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #   - './Frontend:/fe'
+  #   - '/fe/node_modules'
+  #   environment:
+  #     - NODE_ENV=development
+  #     - CHOKIDAR_USEPOLLING=true   # Enable polling for file changes
+  #   networks:
+  #     - laravel-exa
+
+
+# networks:
+#   laravel-exa:
+#     driver: bridge
+
+volumes:
+  db:
+    driver: local
