@@ -1,24 +1,24 @@
 version: '3.8'
 services:
-  # main:
-  #   container_name: Serve
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   command: 'php artisan serve --host=0.0.0.0'
-  #   volumes:
-  #     - .:/app
-  #   ports:
-  #     - 8000:8000
+  main:
+    container_name: Serve
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan serve --host=0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
 
-  # queue:
-  #   container_name: Queue
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   command: 'php artisan queue:work'
-  #   depends_on:
-  #     - db
+  queue:
+    container_name: Queue
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan queue:work'
+    depends_on:
+      - db
 
   db:
     platform: linux/x86_64
@@ -35,21 +35,25 @@ services:
     ports:
       - 3307:3306
 
-#   fe:
-#     build:
-#       context: Frontend
-#       dockerfile: Dockerfile.dev
-#     ports:
-#       - '3000:3000'
-#     volumes:
-#     - './Frontend:/fe'
-#     - '/fe/node_modules'
-#     environment:
-#       - NODE_ENV=development
+  fe:
+    build:
+      context: Frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+    - './Frontend:/fe'
+    - '/fe/node_modules'
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true   # Enable polling for file changes
+    networks:
+      - laravel-exa
 
-# networks:
-#   laravel-exa:
-#     driver: bridge
+
+networks:
+  laravel-exa:
+    driver: bridge
 
 volumes:
   db:

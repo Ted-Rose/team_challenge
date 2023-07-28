@@ -21,7 +21,9 @@ A game for teams of all ages developed by Tedis
 5. Comment out all except db and volumes in `docker-compose.yaml`
 6. `docker-compose up --build`
 7. Identify your IP Address `ipconfig`
-8. `php artisan serve --host=YOUR_IPv4 Address --port=8000`
+8. `php artisan serve --host=192.168.43.45 --port=8000`
 9. `cd Frontend`
 10. `npm start`
 11. Visit http://localhost:8000/players for example
+
+

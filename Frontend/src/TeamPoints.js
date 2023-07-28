@@ -16,7 +16,7 @@ const TeamPoints = (props) => {
   // Function to change points of a team
   const changePoints = async (value) => {
     // Local network
-    const url = "http://MASKED_IP_ADDRESS:8000/change-team-points";
+    const url = "http://192.168.43.45:8000/change-team-points";
     // Local
     // const url = "http://127.0.0.1:8000/change-team-points";
     // Docker
@@ -53,7 +53,7 @@ const TeamPoints = (props) => {
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
     // Local network
-    const url = "http://MASKED_IP_ADDRESS:8000/teams";
+    const url = "http://192.168.43.45:8000/teams";
     // Local
     // const url = "http://127.0.0.1:8000/teams";
     // Docker
