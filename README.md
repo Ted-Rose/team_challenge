@@ -24,6 +24,7 @@ A game for teams of all ages developed by Tedis
 4. Comment out `For docker-compose up` in `.env`
 5. Comment out all except db and volumes in `docker-compose.yaml`
 6. `docker-compose up --build`
+    1. composer install
 7. Identify your IP Address `ipconfig`
 8. `php artisan serve --host=192.168.43.45 --port=8000`
 9. `cd Frontend`
