@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Trading.css";
-import Navbar from "./Navbar";
-import Nfc from "./Nfc";
-import urls from "./urls.json";
+import Navbar from "../components/Navbar";
+import Nfc from "../components/Nfc";
+import urls from "../urls.json";
 
 
 const Trading = () => {

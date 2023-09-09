@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import React, {useState} from "react";
-import "./App.css";
+import "../App.css";
 
 const PasswordForm = ({ setToken }) => {
   const [message, setMessage] = useState("");

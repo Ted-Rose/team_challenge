@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
-import PointsControl from "./PointsControl";
-import urls from "./urls.json";
+import Navbar from "../components/Navbar";
+import PointsControl from "../components/PointsControl";
+import urls from "../urls.json";
 import "./TeamPoints.css";
 
 const TeamPoints = (props) => {
