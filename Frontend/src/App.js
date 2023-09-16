@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PasswordForm from "./pages/PasswordForm";
-import TeamPoints from "./pages/TeamPoints";
-import Trading from "./pages/Trading";
+import Teams from "./pages/Teams";
+import Player from "./pages/Player";
 import RootLayout from "./pages/Root";
 
 // the variable has to be stored in a constant
@@ -19,8 +19,8 @@ const router = createBrowserRouter([
       // For that add folder pages, but you can use whatever name
       // you like for the folder
       { path: "/", element: <PasswordForm /> },
-      { path: "/komandas", element: <TeamPoints /> },
-      { path: "/tirdzins", element: <Trading /> },
+      { path: "/komandas", element: <Teams /> },
+      { path: "/tirdzins", element: <Player /> },
     ],
   },
 ]);

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import PointsControl from "../components/PointsControl";
 import urls from "../urls.json";
+import { getAuthToken } from "../util/auth";
 import "./TeamPoints.css";
 
-const TeamPoints = (props) => {
+const Teams = (props) => {
   const [teams, setTeams] = useState([]); // State for team data
   const [selectedID, setSelectedID] = useState(1); // State for selected team ID
   const [authorized, setAuthorized] = useState(false); // State for authorization status
-
+  const token = getAuthToken();
   // useEffect hook to fetch teams data on component mount
   useEffect(() => {
     GetNewPoints();
@@ -16,8 +17,7 @@ const TeamPoints = (props) => {
 
   // Function to change points of a team
   const changePoints = async (value) => {
-    // Local network
-    const url = urls[0].base_url + ":8000/change-team-points";
+    const url = urls[0].base_url + "/change-team-points";
 
     const data = {
       id: selectedID,
@@ -29,7 +29,7 @@ const TeamPoints = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${props.token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });
@@ -45,17 +45,13 @@ const TeamPoints = (props) => {
       console.log("Request failed with error:", error);
     }
     // Fetching new team data to update UI
-    GetNewPoints(props.token);
+    GetNewPoints();
   };
 
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
     // Local network
-    const url = urls[0].base_url + ":8000/teams";
-    // Local
-    // const url = "http://127.0.0.1:8000/teams";
-    // Docker
-    // const url = "http://0.0.0.0:8000/teams";
+    const url = urls[0].base_url + "/teams";
 
     try {
       const response = await fetch(url);
@@ -91,9 +87,8 @@ const TeamPoints = (props) => {
                 <button
                   key={value}
                   type="button"
-                  className={`btn btn-sm btn-outline-secondary ms-5 ${
-                    value > 0 ? "btn-outline-success" : "btn-outline-danger"
-                  }`}
+                  className={`btn btn-sm btn-outline-secondary ms-5 ${value > 0 ? "btn-outline-success" : "btn-outline-danger"
+                    }`}
                   onClick={() =>
                     changePoints(value)
                   }
@@ -121,4 +116,4 @@ const TeamPoints = (props) => {
   );
 };
 
-export default TeamPoints;
+export default Teams;

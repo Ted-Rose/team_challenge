@@ -3,10 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Trading.css";
 import Navbar from "../components/Navbar";
 import Nfc from "../components/Nfc";
+import { getAuthToken } from "../util/auth";
 import urls from "../urls.json";
 
 
-const Trading = () => {
+const Player = () => {
   const [player, setPlayer] = useState(null);
   const [playersArray, setPlayersArray] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(true)
@@ -15,6 +16,7 @@ const Trading = () => {
   const [getPlayerMethod, setGetPlayerMethod] = useState("");
   const [playerName, setPlayerName] = useState("");
   const [playerPassword, setPlayerPassword] = useState("");
+  const token = getAuthToken();
 
   useEffect(() => {
     getNewPoints();
@@ -24,7 +26,7 @@ const Trading = () => {
   const changePoints = async (Value) => {
     // Local network
     const url = urls[0].base_url + ":8000/change-player-points";
-    
+
     const data = {
       id: player.id,
       points: Value,
@@ -66,7 +68,7 @@ const Trading = () => {
         headers: {
           "Content-Type": "application/json",
         }
-    });
+      });
 
       if (response.ok) {
         setAuthorized(true);
@@ -137,7 +139,7 @@ const Trading = () => {
           <div className="text-center">
             {player ? (
               <>
-              <h3>Atrastais dalībnieks:</h3>
+                <h3>Atrastais dalībnieks:</h3>
                 <h4>{player.name}</h4>
                 <h4>{player.points} EUR</h4>
               </>
@@ -154,29 +156,28 @@ const Trading = () => {
               Ievadīt vārdu un paroli
             </button>
             {formSubmitted === false ? (
-            <form onSubmit={handleCredentials}>
-              <label>Vārds</label>
-              <input
-              type="text"
-              onChange={(e) => setPlayerName(e.target.value)}
-              />
-              <label>Parole</label>
-              <input
-              type="text"
-              onChange={(e) => setPlayerPassword(e.target.value)}
-              />
-              <button type="submit" className="w-50 btn btn-med btn-primary">Aiziet!</button>
-            </form>
-             ) : null}
+              <form onSubmit={handleCredentials}>
+                <label>Vārds</label>
+                <input
+                  type="text"
+                  onChange={(e) => setPlayerName(e.target.value)}
+                />
+                <label>Parole</label>
+                <input
+                  type="text"
+                  onChange={(e) => setPlayerPassword(e.target.value)}
+                />
+                <button type="submit" className="w-50 btn btn-med btn-primary">Aiziet!</button>
+              </form>
+            ) : null}
 
             <div className="btn-group-lg center">
               {[-10, -5, -1, 1, 5, 10].map((Value) => (
                 <button
                   key={Value}
                   type="button"
-                  className={`btn ${
-                    Value > 0 ? "btn-outline-success" : "btn-outline-danger"
-                  }`}
+                  className={`btn ${Value > 0 ? "btn-outline-success" : "btn-outline-danger"
+                    }`}
                   onClick={() =>
                     changePoints(Value)
                   }
@@ -193,4 +194,4 @@ const Trading = () => {
   );
 };
 
-export default Trading;
+export default Player;
