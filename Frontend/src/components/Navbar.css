@@ -1,53 +1,23 @@
-.navbar {
-    background-color: #343a40;
-    color: #ffffff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-  }
-  
-  .navbar-toggler {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .nav-links {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding: 0;
-    position: absolute;
-    top: 70px; /* Adjust as needed */
-    right: 0;
-    background-color: #343a40;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s, transform 0.3s;
-  }
-  
-  .nav-links.open {
-    opacity: 1;
-    transform: translateY(0);
-    color: #ffffff;
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
-  }
-  
-  .nav-item {
-    margin-bottom: 0.5rem;
-  }
-  
-  .nav-link {
-    color: #ffffff;
-    text-decoration: none;
-  }
-  
-  /* Media query for mobile responsiveness */
-  @media (max-width: 768px) {
-    .nav-links {
-      top: 55px; /* Adjust as needed */
-    }
-  }
-  
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
