@@ -16,19 +16,19 @@ A game for teams of all ages developed by Tedis
 8. Visit end points (http://localhost:8000/players for example)
 
 # Setup for local deployment instructions
-1. Rename `.env.template` to `.env`
-    1. Rename `urls.template.json` to `urls.json`
-    2. Update `base_url` in `urls.json` to BE base url
-2. Comment in `For Laravel app` in `.env`
-3. Comment out `For terminal` in `.env`
-4. Comment out `For docker-compose up` in `.env`
-5. Comment out all except db and volumes in `docker-compose.yaml`
-6. `docker-compose up --build`
-    1. composer install
+1. Copy `.env.template`
+2. Rename `.env copy.template` to `.env`
+3. Rename `urls.template.json` to `urls.json`
+4. Update `base_url` in `urls.json` to BE base url
+5. Start MySQL server (on WAMPSERVER64 for example)
+6. `composer install`
 7. Identify your IP Address `ipconfig`
-8. `php artisan serve --host=192.168.43.45 --port=8000`
+8. `php artisan serve`
+  1. To access sita via mobile phone: `php artisan serve --host=your_ip_address --port=8000`
 9. `cd Frontend`
 10. `npm start`
 11. Visit http://localhost:8000/players for example
+
+# Local setup instructions
 
 
