@@ -2,8 +2,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import React, {useState} from "react";
 import "../App.css";
+import urls from '../urls.json';
 
-const PasswordForm = ({ setToken }) => {
+const PasswordForm = () => {
   const [message, setMessage] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [inputHasError, setInputHasError] = useState(false);
@@ -25,6 +26,9 @@ const PasswordForm = ({ setToken }) => {
       var passwordValid = "";
       if (response["message"] === "Logged in") {
         passwordValid = true;
+        // Save token in local storage for future use in
+        // othe pages
+        localStorage.setItem("token", response["token"]);
       } else {
         passwordValid = false;
       }
@@ -34,7 +38,6 @@ const PasswordForm = ({ setToken }) => {
       } else {
         setInputHasError(false);
         setMessage("Parole ir pareiza!");
-        setToken(response["token"]); // Set the token in the parent component
         navigate("/komandas");
       }
     }
@@ -43,7 +46,8 @@ const PasswordForm = ({ setToken }) => {
 
   // Function to check password validity
   async function checkPassword(passwordInput) {
-    const url = "http://localhost:8000/login";
+    const baseUrl = urls[0].base_url;
+    const url = baseUrl;
     const password = { password: passwordInput };
 
     const formData = new URLSearchParams();
