@@ -9,11 +9,27 @@
 		{
 			"name": "Change Team Points",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "11|cEoQy6Bge9bk34KcumI9NE4BBUHNct22lvbGyPW0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 2|7Rz4xUndIJmSwqUVImoY9hMA2An1hlsh0WUEGGg6",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"id\": 1,\r\n  \"points\": 100\r\n}",
+					"raw": "{\r\n  \"id\": 2,\r\n  \"points\": 100\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,15 +37,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/change-team-points",
-					"protocol": "http",
+					"raw": "{{base_url}}/change-team-points",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
 						"change-team-points"
 					]
@@ -43,6 +54,16 @@
 				"disableBodyPruning": true
 			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "16|Cjo0WEhWSfeHKKFHmPNPAYBR0VO7wU1yVjM06lqa",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"body": {
@@ -55,17 +76,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/change-team-points",
-					"protocol": "http",
+					"raw": "{{base_url}}/players",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
-						"change-team-points"
+						"players"
 					]
 				}
 			},
@@ -77,6 +93,16 @@
 				"disableBodyPruning": true
 			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "16|Cjo0WEhWSfeHKKFHmPNPAYBR0VO7wU1yVjM06lqa",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"body": {
@@ -89,15 +115,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/teams",
-					"protocol": "http",
+					"raw": "{{base_url}}/teams",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
 						"teams"
 					]
@@ -107,15 +128,22 @@
 		},
 		{
 			"name": "Change Player Points",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "16|Cjo0WEhWSfeHKKFHmPNPAYBR0VO7wU1yVjM06lqa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"id\": 2,\r\n  \"points\": -100\r\n}",
+					"raw": "{\r\n  \"id\": 4,\r\n  \"points\": 100\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -123,21 +151,88 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/change-player-points",
-					"protocol": "http",
+					"raw": "{{base_url}}/change-player-points",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
 						"change-player-points"
 					]
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"bear@example.com\",\r\n    \"password\": \"Bear\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000/api"
 		}
 	]
 }
