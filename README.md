@@ -25,9 +25,11 @@ A game for teams of all ages developed by Tedis
 7. Identify your IP Address `ipconfig`
 8. `php artisan serve`
   1. To access sita via mobile phone: `php artisan serve --host=your_ip_address --port=8000`
-9. `cd Frontend`
-10. `npm start`
-11. Visit http://localhost:8000/players for example
+9. `php artisan migrate`
+10. `php artisan db:seed`
+11. `cd Frontend`
+12. `npm start`
+13. Visit http://localhost:8000/players for example
 
 # Local setup instructions
 

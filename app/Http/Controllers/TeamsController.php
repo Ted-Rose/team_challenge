@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Log;
 
 class TeamsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     public function index()
     {
         $teams = Team::all();

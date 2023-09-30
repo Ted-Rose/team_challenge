@@ -21,6 +21,10 @@ Route::prefix('teams')->group(function () {
     Route::get('/{id}', [TeamsController::class, 'show'])->name('team.show');
 });
 
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+  return $request->user();
+});
+
 Route::prefix('change-team-points')->group(function () {
     Route::post('/', [TeamsController::class, 'changePoints']);
 });
