@@ -1,8 +1,6 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import "../App.css";
-import urls from '../urls.json';
+import { useNavigate } from "react-router-dom";
+import urls from "../urls.json";
 
 const PasswordForm = () => {
   const [message, setMessage] = useState("");
@@ -16,9 +14,10 @@ const PasswordForm = () => {
 
   let navigate = useNavigate();
 
-  // Form submission handler
-  const onSubmit = async () => {
-    if (Object.keys(passwordInput).length === 0) {
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    if (passwordInput === "") {
       setInputHasError(true);
       setMessage("Ievadi paroli!");
     } else {
@@ -28,10 +27,8 @@ const PasswordForm = () => {
         setInputHasError(true);
         setMessage("Parole nav pareiza!!");
       } else {
-
         const responseJson = await response.json();
-        const token = await responseJson.token;
-        // Save token in local storage for future use
+        const token = responseJson.token;
         localStorage.setItem("token", token);
 
         setInputHasError(false);
@@ -43,10 +40,9 @@ const PasswordForm = () => {
     setHideErrorMessage(false);
   };
 
-  // Check password validity
   async function checkPassword(passwordInput) {
     const baseUrl = urls[0].base_url;
-    const url = baseUrl + "/api/login";
+    const url = `${baseUrl}/api/login`;
     const email = "bear@example.com";
 
     const data = {
@@ -64,7 +60,7 @@ const PasswordForm = () => {
       });
 
       if (response.ok) {
-        console.log(`Successfully logged in!`);
+        console.log("Successfully logged in!");
       } else {
         console.log("Failed to change data. Status:", response.status);
       }
@@ -75,17 +71,13 @@ const PasswordForm = () => {
     }
   }
 
-  const preventDefault = (e) => {
-    e.preventDefault();
-  };
-
   const messageClass = inputHasError ? "error" : "approved";
   const showMessage = hideErrorMessage ? "hide" : "show";
 
   return (
     <div className="App text-center">
       <main className="form-signin w-100 m-auto">
-        <form onSubmit={preventDefault}>
+        <form onSubmit={onSubmit}>
           <div className="form-floating">
             <input
               value={passwordInput}
@@ -93,19 +85,15 @@ const PasswordForm = () => {
               name="email_input"
               id="floatingPassword"
               type="password"
-              className={`${"form-control"} ${messageClass}`}
+              className={`form-control ${messageClass}`}
               placeholder=""
             />
             <label htmlFor="floatingPassword">Parole</label>
           </div>
-          <button
-            className="w-100 btn btn-med btn-primary"
-            type="submit"
-            onClick={onSubmit}
-          >
+          <button className="w-100 btn btn-med btn-primary" type="submit">
             Ienākt
           </button>
-          <div className={`${"message"} ${messageClass} ${showMessage}`}>
+          <div className={`message ${messageClass} ${showMessage}`}>
             {message}
           </div>
         </form>

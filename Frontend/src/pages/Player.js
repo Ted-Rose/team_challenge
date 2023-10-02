@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./Trading.css";
 import Navbar from "../components/Navbar";
 import Nfc from "../components/Nfc";
 import { getAuthToken } from "../util/auth";
 import urls from "../urls.json";
+import "./Trading.css";
 
 
 const Player = () => {
@@ -125,8 +124,6 @@ const Player = () => {
     setGetPlayerMethod("name");
     setFormSubmitted(false);
   }
-
-
 
   return (
     <div>
