@@ -25,7 +25,7 @@ const Player = () => {
   // Function to change points for a player
   const changePoints = async (Value) => {
     // Local network
-    const url = urls[0].base_url + ":8000/change-player-points";
+    const url = urls[0].base_url + "/api/change-player-points";
 
     const data = {
       id: player.id,
@@ -34,40 +34,37 @@ const Player = () => {
     try {
       const response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify(data),
         headers: {
-          "Content-type": "application/json; charset=UTF-8",
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
         console.log("Points changed successfully");
-        await getNewPoints();
-
       } else {
         console.log("Failed to change points. Status:", response.status);
       }
     } catch (error) {
       console.log("Request failed with error:", error);
     }
+    // Fetching new player data to update UI
+    await getNewPoints();
   };
 
   // Fetch newest player points
   const getNewPoints = async () => {
     // Local network
-    const url = urls[0].base_url + ":8000/players";
-    // Local
-    // const url = "http://127.0.0.1:8000/players";
-    // Docker
-    // const url = "http://0.0.0.0:8000/players";
-    // Dummy API
-    // const url = "https://my-json-server.typicode.com/Ted-Rose/fake_api_No1/player";
+    const url = urls[0].base_url + "/api/players";
+
     try {
       const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -139,9 +136,11 @@ const Player = () => {
           <div className="text-center">
             {player ? (
               <>
-                <h3>Atrastais dalībnieks:</h3>
-                <h4>{player.name}</h4>
-                <h4>{player.points} EUR</h4>
+                <div className="list-group-item rounded-3 py-3 selected">
+                  <h3>Atrastais dalībnieks:</h3>
+                  <h4>{player.name}</h4>
+                  <h4>{player.points} EUR</h4>
+                </div>
               </>
             ) : (
               <h3>Izvēlieties dalībnieku skenējot NFC karti vai ievadot vārdu un paroli</h3>

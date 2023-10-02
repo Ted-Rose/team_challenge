@@ -17,7 +17,7 @@ const Teams = (props) => {
 
   // Function to change points of a team
   const changePoints = async (value) => {
-    const url = urls[0].base_url + "/change-team-points";
+    const url = urls[0].base_url + "/api/change-team-points";
 
     const data = {
       id: selectedID,
@@ -51,10 +51,16 @@ const Teams = (props) => {
   // Function to fetch new team data from API
   const GetNewPoints = async () => {
     // Local network
-    const url = urls[0].base_url + "/teams";
+    const url = urls[0].base_url + "/api/teams";
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.ok) {
         setAuthorized(true);

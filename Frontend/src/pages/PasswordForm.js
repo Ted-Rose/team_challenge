@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "../App.css";
 import urls from '../urls.json';
 
@@ -22,56 +22,63 @@ const PasswordForm = () => {
       setInputHasError(true);
       setMessage("Ievadi paroli!");
     } else {
-      var response = await checkPassword(passwordInput);
-      var passwordValid = "";
-      if (response["message"] === "Logged in") {
-        passwordValid = true;
-        // Save token in local storage for future use in
-        // othe pages
-        localStorage.setItem("token", response["token"]);
-      } else {
-        passwordValid = false;
-      }
-      if (!passwordValid) {
+      const response = await checkPassword(passwordInput);
+
+      if (!response.ok) {
         setInputHasError(true);
         setMessage("Parole nav pareiza!!");
       } else {
+
+        const responseJson = await response.json();
+        const token = await responseJson.token;
+        // Save token in local storage for future use
+        localStorage.setItem("token", token);
+
         setInputHasError(false);
         setMessage("Parole ir pareiza!");
         navigate("/komandas");
       }
     }
+
     setHideErrorMessage(false);
   };
 
-  // Function to check password validity
+  // Check password validity
   async function checkPassword(passwordInput) {
     const baseUrl = urls[0].base_url;
-    const url = baseUrl;
-    const password = { password: passwordInput };
+    const url = baseUrl + "/api/login";
+    const email = "bear@example.com";
 
-    const formData = new URLSearchParams();
-    for (const [key, value] of Object.entries(password)) {
-      formData.append(key, value);
+    const data = {
+      email: email,
+      password: passwordInput,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        console.log(`Successfully logged in!`);
+      } else {
+        console.log("Failed to change data. Status:", response.status);
+      }
+
+      return response;
+    } catch (error) {
+      console.log("Request failed with error:", error);
     }
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formData.toString(),
-    });
-
-    const data = await response.json();
-    return data;
   }
 
   const preventDefault = (e) => {
     e.preventDefault();
   };
 
-  // CSS classes for message display
   const messageClass = inputHasError ? "error" : "approved";
   const showMessage = hideErrorMessage ? "hide" : "show";
 
