@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Nfc from "../components/Nfc";
 import { getAuthToken } from "../util/auth";
 import urls from "../urls.json";
-import "./Trading.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 
 const Player = () => {

@@ -5,6 +5,7 @@ import urls from "../urls.json";
 import { getAuthToken } from "../util/auth";
 import "./TeamPoints.css";
 
+
 const Teams = (props) => {
   const [teams, setTeams] = useState([]); // State for team data
   const [selectedID, setSelectedID] = useState(1); // State for selected team ID

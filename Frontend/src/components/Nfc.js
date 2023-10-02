@@ -69,7 +69,7 @@ const Nfc = (props) => {
       <div id="status"></div>
       <pre id="log"></pre>
       <h1>Available Window Objects:</h1>
-      <WindowObjects />
+      {/* <WindowObjects /> */}
       <button className="w-50 btn btn-med btn-primary" id="scanButton">
         Skenēt
       </button>
