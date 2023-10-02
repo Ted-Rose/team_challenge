@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import WindowObjects from './WindowObjects';
 
 const Nfc = (props) => {
   useEffect(() => {
@@ -32,7 +33,8 @@ const Nfc = (props) => {
     // Check if NFC reading is supported in the browser
     if (!("NDEFReader" in window))
       setStatus(
-        "NFC lasīšana šajā pārlūkprogrammā nav iespējama. Lietojiet Chrome caur Android telefonu."
+        "NFC lasīšana šajā pārlūkprogrammā nav iespējama. \
+        Lietojiet Chrome caur Android telefonu."
       );
 
     // Add event listener to the scan button
@@ -66,6 +68,8 @@ const Nfc = (props) => {
       <div id="content"></div>
       <div id="status"></div>
       <pre id="log"></pre>
+      <h1>Available Window Objects:</h1>
+      <WindowObjects />
       <button className="w-50 btn btn-med btn-primary" id="scanButton">
         Skenēt
       </button>
