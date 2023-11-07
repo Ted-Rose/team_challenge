@@ -1,7 +1,6 @@
 # ToDoList
 - Create feature for alternative player authorization using password
 - Dockerize React
-- Clean up CSS
 - Deploy app on Azure
 - FE - include input field validation for /tirdzins
 - BE bugfix - disable player creation with non existing teams_id

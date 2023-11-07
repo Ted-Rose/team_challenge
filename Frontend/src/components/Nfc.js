@@ -39,7 +39,7 @@ const Nfc = (props) => {
 
     // Add event listener to the scan button
     scanButton.addEventListener("click", async () => {
-      log("User clicked scan button");
+    //   log("User clicked scan button");
 
       try {
         const ndef = new NDEFReader();
@@ -58,6 +58,8 @@ const Nfc = (props) => {
           log(`> Records: (${message.records.length})`);
         });
       } catch (error) {
+        // Clear previous log
+        document.querySelector("#log").textContent = "";
         log("Argh! " + error);
       }
     });
@@ -68,8 +70,12 @@ const Nfc = (props) => {
       <div id="content"></div>
       <div id="status"></div>
       <pre id="log"></pre>
-      <h1>Available Window Objects:</h1>
-      {/* <WindowObjects /> */}
+      {/* {("NDEFReader" in window) ? null : (
+        <div>
+          <h1>Available Window Objects:</h1>
+          <WindowObjects />
+        </div>
+      )} */}
       <button className="w-50 btn btn-med btn-primary" id="scanButton">
         Skenēt
       </button>

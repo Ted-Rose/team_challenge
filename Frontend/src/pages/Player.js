@@ -128,12 +128,10 @@ const Player = () => {
   return (
     <div>
       <Navbar />
-      <main className="container">
-        <div className="bg-light p-5 rounded">
-          <div className="text-center">
+          <main className="container text-center bg-light pt-3">
             {player ? (
               <>
-                <div className="list-group-item rounded-3 py-3 selected">
+                <div className="list-group-item rounded-3 py-3 selected m-3 mt-1">
                   <h3>Atrastais dalībnieks:</h3>
                   <h4>{player.name}</h4>
                   <h4>{player.points} EUR</h4>
@@ -153,16 +151,28 @@ const Player = () => {
             </button>
             {formSubmitted === false ? (
               <form onSubmit={handleCredentials}>
-                <label>Vārds</label>
-                <input
-                  type="text"
-                  onChange={(e) => setPlayerName(e.target.value)}
-                />
-                <label>Parole</label>
-                <input
-                  type="text"
-                  onChange={(e) => setPlayerPassword(e.target.value)}
-                />
+                <div className="form-floating">
+                    <input
+                        onChange={(e) => setPlayerName(e.target.value)}
+                        name="email_input"
+                        id="floatingUsername"
+                        type="text"
+                        className={`form-control`}
+                        placeholder=""
+                    />
+                    <label htmlFor="floatingUsername">Vārds</label>
+                    </div>
+                <div className="form-floating">
+                    <input
+                        onChange={(e) => setPlayerPassword(e.target.value)}
+                        name="email_input"
+                        id="floatingPassword"
+                        type="password"
+                        className={`form-control`}
+                        placeholder=""
+                    />
+                    <label htmlFor="floatingPassword">Parole</label>
+                </div>
                 <button type="submit" className="w-50 btn btn-med btn-primary">Aiziet!</button>
               </form>
             ) : null}
@@ -182,9 +192,7 @@ const Player = () => {
                 </button>
               ))}
             </div>
-          </div>
           {!authorized && <h2>Nepieciešams atkārtoti autorizēties!</h2>}
-        </div>
       </main>
     </div>
   );

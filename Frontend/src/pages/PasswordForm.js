@@ -71,29 +71,29 @@ const PasswordForm = () => {
     }
   }
 
-  const messageClass = inputHasError ? "error" : "approved";
+  const messageClass = inputHasError ? "text-danger" : "text-success";
   const showMessage = hideErrorMessage ? "hide" : "show";
 
   return (
-    <div className="App text-center">
-      <main className="form-signin w-100 m-auto">
+    <div className="container text-center">
+      <main className="form-signin m-auto mt-3">
         <form onSubmit={onSubmit}>
           <div className="form-floating">
             <input
               value={passwordInput}
               onChange={inputChangeHandler}
               name="email_input"
-              id="floatingPassword"
+              id="floatingPassword" 
               type="password"
               className={`form-control ${messageClass}`}
               placeholder=""
             />
             <label htmlFor="floatingPassword">Parole</label>
           </div>
-          <button className="w-100 btn btn-med btn-primary" type="submit">
+          <button className="w-100 btn btn-med btn-primary mt-2" type="submit">
             Ienākt
           </button>
-          <div className={`message ${messageClass} ${showMessage}`}>
+                  <div className={`${messageClass} ${showMessage}`}>
             {message}
           </div>
         </form>

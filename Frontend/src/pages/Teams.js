@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import PointsControl from "../components/PointsControl";
 import urls from "../urls.json";
 import { getAuthToken } from "../util/auth";
-import "./TeamPoints.css";
 
 
 const Teams = (props) => {
@@ -85,40 +84,39 @@ const Teams = (props) => {
   return (
     <div>
       <Navbar />
-      <main className="container">
-        <div className="bg-light p-5 rounded">
-          <div className="text-center">
-            <h3>Pievieno vai noņem punktus komandai</h3>
-            <div className="btn-group-lg center lg-1">
-              {[-10, -5, -1, +1, +5, +10].map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  className={`btn btn-sm btn-outline-secondary ms-5 ${value > 0 ? "btn-outline-success" : "btn-outline-danger"
-                    }`}
-                  onClick={() =>
-                    changePoints(value)
-                  }
-                >
-                  {value > 0 ? "+" : "-"} {Math.abs(value)}
-                </button>
-              ))}
-            </div>
-          </div>
-          {!authorized && <h2>Nepieciešams atkārtoti autorizēties!</h2>}
-
-          {teams.map(({ id, name, points }) => (
-            <PointsControl
-              key={id}
-              ID={id}
-              count={points}
-              teamName={name}
-              changeCheckedState={setSelectedID}
-              selectedState={selectedID === id ? "selected" : "unselected"}
-            />
+      <div className="container">
+        <div className="text-center mb-4 pt-4">
+        <h4>Pievieno vai noņem punktus komandai</h4>
+        <div className="btn-group-lg center pt-2 d-flex justify-content-center flex-wrap">
+          {[-10, -5, -1, +1, +5, +10].map((value) => (
+          <button
+            key={value}
+            type="button"
+            className={`btn
+              btn-sm
+              btn-outline-secondary
+              ${value > 0 ? "btn-outline-success" : "btn-outline-danger"}`}
+            onClick={() =>
+            changePoints(value)
+            }
+          >
+            {value > 0 ? "+" : "-"} {Math.abs(value)}
+          </button>
           ))}
         </div>
-      </main>
+        </div>
+        {!authorized && <h2>Nepieciešams atkārtoti autorizēties!</h2>}
+        {teams.map(({ id, name, points }) => (
+          <PointsControl
+            key={id}
+            ID={id}
+            count={points}
+            teamName={name}
+            changeCheckedState={setSelectedID}
+            selectedState={selectedID === id ? "selected" : "unselected"}
+          />
+        ))}
+      </div>
     </div>
   );
 };

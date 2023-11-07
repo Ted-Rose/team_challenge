@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import "./Navbar.css";
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
       <div className="container-fluid">
         <div className="navbar-brand">
           Luksofors 2023
@@ -11,10 +10,10 @@ function Navbar() {
         <div>
           <ul>
             <li>
-              <Link to="/komandas">Komandas</Link>
+              <Link to="/komandas" className="bg-dark">Komandas</Link>
             </li>
             <li>
-              <Link to="/tirdzins">Tirdziņš</Link>
+              <Link to="/tirdzins" className="bg-dark">Tirdziņš</Link>
             </li>
           </ul>
         </div>

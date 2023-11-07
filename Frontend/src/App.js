@@ -3,6 +3,7 @@ import PasswordForm from "./pages/PasswordForm";
 import Player from "./pages/Player";
 import RootLayout from "./pages/Root";
 import Teams from "./pages/Teams";
+import "./App.css";
 
 const router = createBrowserRouter([
   {

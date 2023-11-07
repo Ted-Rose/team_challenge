@@ -6,8 +6,8 @@ function PointsControl(props) {
   };
 
   return (
-    <div className={`list-group-item rounded-3 py-3 ${props.selectedState}`} onClick={handleOnChange}>
-      <div className="d-flex gap-2 w-100 justify-content-between">
+    <div className={`list-group-item rounded-3 py-3 p-4 ${props.selectedState}`} onClick={handleOnChange}>
+      <div className="d-flex gap-6 justify-content-between align-items-center">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMUxWz1t3EWprdLje0Qhx7TfkPGq_HEI5x-xfwVFfbqA&s"
           alt="twbs"
@@ -15,11 +15,11 @@ function PointsControl(props) {
           height="32"
           className="rounded-circle flex-shrink-0"
         />
+        <h6 className="mb-0">{props.teamName}</h6>
         <div>
-          <h6 className="mb-0">{props.teamName}</h6>
+          <p className="mb-0 me-2">Punkti:</p>
+          <p className="mb-0">{props.count}</p>
         </div>
-        <p>Punkti:</p>
-        <p>{props.count}</p>
       </div>
     </div>
   );
