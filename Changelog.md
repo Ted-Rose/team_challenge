@@ -1,6 +1,5 @@
 # ToDoList
 - Create feature for alternative player authorization using password
-- Dockerize React
 - Deploy app on Azure
 - FE - include input field validation for /tirdzins
 - BE bugfix - disable player creation with non existing teams_id
@@ -11,6 +10,6 @@
 
 # Done list
 Simple log - place cursor over the change you are interested in to get information about contributor and commits time (works in VS Code if GitLens extension is used)
-1. MVP for BE using Laravel that accepts FE requests
+3. Project dockerized and available via private network
 2. Create feature authentication in FE and BE
-
+1. MVP for BE using Laravel that accepts FE requests
