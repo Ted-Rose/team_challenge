@@ -2,18 +2,20 @@
 A game for teams of all ages developed by Tedis
 
 0. `docker-compose up --build` when first starting the project
-1. `docker-compose up` when starting the project for not the first time
+1. `docker-compose up` when starting the project not for the first time
 2. `docker-compose exec main php artisan migrate --seed` to create and seed db tables
 3. Identify your IP Address
     1. Windows: `ipconfig`
         1. Under `Wireless LAN adapter Wi-Fi:` the correct address is `IPv4 Address`
-4. In `Frontend\src\urls.json` update `YOUR_URL` to `http://your_ip_address:8000`
-5. Visit `http://your_ip_address:8000` on your local network to begin
+4. Make a copy of `Frontend\src\urls.template.json` in the same directory and rename it to `urls.json`
+    1. In `Frontend\src\urls.json` update `YOUR_URL` to `http://your_ip_address:8000`
+5. Make a copy of `.env.template` in the same directory and rename it to `.env`
+6. Visit `http://your_ip_address:8000` on your local network to begin
     1. Current password is `Bear`
     2. If encountering error connecting via your local network try turning off firewall
 
 # Setup for local deployment instructions
-1. Copy `.env.template`
+1. Make a copy of `.env.template`
 2. Rename `.env copy.template` to `.env`
 3. Rename `urls.template.json` to `urls.json`
 4. Update `base_url` in `urls.json` to BE base url
