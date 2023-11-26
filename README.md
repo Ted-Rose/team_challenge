@@ -10,9 +10,23 @@ A game for teams of all ages developed by Tedis
 4. Make a copy of `Frontend\src\urls.template.json` in the same directory and rename it to `urls.json`
     1. In `Frontend\src\urls.json` update `YOUR_URL` to `http://your_ip_address:8000`
 5. Make a copy of `.env.template` in the same directory and rename it to `.env`
-6. Visit `http://your_ip_address:8000` on your local network to begin
+6. Visit `https://your_ip_address:8000` on your local network to begin
     1. Current password is `Bear`
     2. If encountering error connecting via your local network try turning off firewall
+    3. Probably you won't be able to access the site from mobile phone without manually trusting the self-signed certificate (see the following section)
+
+
+# Manually trusting the self-signed certificate
+1. Download [OpenSSL](https://sourceforge.net/projects/openssl/)
+2. cd `docker\nginx\ssl`
+3. `openssl genpkey -algorithm RSA -out server.key`
+4. `openssl req -new -key server.key -out server.csr -config "C:\Program Files\OpenSSL-Win64\bin\openssl.cnf"`
+5. `openssl x509 -req -in server.csr -signkey server.key -out server.crt -days 365 -extfile "C:\Program Files\OpenSSL-Win64\bin\openssl.cnf"`
+6. `docker\nginx\conf.d\default.conf` - define `proxy_pass` to match your React app's url
+7. Visit the HTTPS site on your local network using desktop device
+8. Download the self signed SSL certificate
+9. Copy the certificate to the root of the phone
+10. Install the certificate from the phones settings (Google it)
 
 # Setup for local deployment instructions
 1. Make a copy of `.env.template`
