@@ -28,7 +28,7 @@ A game for teams of all ages developed by Tedis
 9. Copy the certificate to the root of the phone
 10. Install the certificate from the phones settings (Google it)
 
-# Setup for local deployment instructions
+# Setup for local deployment (without docker)
 1. Make a copy of `.env.template`
 2. Rename `.env copy.template` to `.env`
 3. Rename `urls.template.json` to `urls.json`

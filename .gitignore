@@ -2,6 +2,7 @@ data/
 Frontend/node_modules/
 Frontend/src/urls.json
 Frontend/yarn.lock
+Frontend/build/
 .env
 /.phpunit.cache
 /node_modules
@@ -22,3 +23,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+docker/nginx/conf.d/default.conf
+docker/nginx/ssl/

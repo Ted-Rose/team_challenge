@@ -40,11 +40,17 @@ services:
       context: Frontend
       dockerfile: Dockerfile.dev
     ports:
-      - '0.0.0.0:3000:3000'
+      # For development:
+      # - '0.0.0.0:3000:3000'
+      # For production:
+        - '0.0.0.0:3000:80'
     command: 'yarn start --host 0.0.0.0'
     volumes:
-    - './Frontend:/fe'
-    - '/fe/node_modules'
+      # For development:
+    # - './Frontend:/fe'
+    # - '/fe/node_modules'
+      # For production:
+      - './Frontend/build:/usr/share/nginx/html'
     environment:
       - HTTPS=true
       - NODE_ENV=development
@@ -62,6 +68,8 @@ services:
       - ./docker/nginx/ssl:/etc/nginx/ssl
     depends_on:
       - main
+      # Producion:
+      - fe
     networks:
       - laravel-exa
 
