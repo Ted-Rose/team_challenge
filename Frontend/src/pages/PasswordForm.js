@@ -42,6 +42,10 @@ const PasswordForm = () => {
 
   async function checkPassword(passwordInput) {
     const baseUrl = urls[0].base_url;
+      console.log("urls:");
+      console.log(urls)
+      console.log("baseUrl:");
+      console.log(baseUrl)
     const url = `${baseUrl}/api/login`;
     const email = "bear@example.com";
 
@@ -51,6 +55,8 @@ const PasswordForm = () => {
     };
 
     try {
+        console.log("url:");
+        console.log(url);
       const response = await fetch(url, {
         method: "POST",
         headers: {
