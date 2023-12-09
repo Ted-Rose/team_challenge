@@ -1,6 +1,9 @@
 # Team Challenge
 A game for teams of all ages developed by Tedis
 
+# Setup
+
+## Base setup
 0. `docker-compose up --build` when first starting the project
 1. `docker-compose up` when starting the project not for the first time
 2. `docker-compose exec main php artisan migrate --seed` to create and seed db tables
@@ -14,15 +17,15 @@ A game for teams of all ages developed by Tedis
     1. Current password is `Bear`
     2. If encountering error connecting via your local network try turning off firewall
     3. Probably you won't be able to access the site from mobile phone without manually trusting the self-signed certificate (see the following section)
-
+https://medium.com/@nhatcuong/site-with-both-http-and-https-pages-using-nginx-and-django-b2574559c2d9 
 
 # Manually trusting the self-signed certificate
-1. Download [OpenSSL](https://sourceforge.net/projects/openssl/)
-2. cd `docker\nginx\ssl`
+1. Follow [these](https://tecadmin.net/install-openssl-on-windows/) steps to install OpenSSL
+2. cd `nginx\ssl`
 3. `openssl genpkey -algorithm RSA -out server.key`
-4. `openssl req -new -key server.key -out server.csr -config "C:\Program Files\OpenSSL-Win64\bin\openssl.cnf"`
-5. `openssl x509 -req -in server.csr -signkey server.key -out server.crt -days 365 -extfile "C:\Program Files\OpenSSL-Win64\bin\openssl.cnf"`
-6. `docker\nginx\conf.d\default.conf` - define `proxy_pass` to match your React app's url
+4. `openssl req -new -key server.key -out server.csr`
+5. `openssl x509 -req -in server.csr -signkey server.key -out server.crt -days 365`
+6. `docker\nginx\conf.d\default.conf` - define `proxy_pass` to match your `IPv4 Address`
 7. Visit the HTTPS site on your local network using desktop device
 8. Download the self signed SSL certificate
 9. Copy the certificate to the root of the phone
