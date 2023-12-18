@@ -4,6 +4,7 @@
 - FE - include input field validation for /tirdzins
 - BE bugfix - disable player creation with non existing teams_id
 - FS bugfix - when requesting data for a single player don't return all player data from backend
+- Restructure file structure
 
 # Lower priority ToDoList
 - Fix buggy Laravel dockerization
