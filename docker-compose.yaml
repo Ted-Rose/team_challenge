@@ -3,7 +3,7 @@ version: '3.8'
 services:
   laravel:
     build:
-      context: .
+      context: ./laravel
       dockerfile: Dockerfile
     working_dir: /var/www
     volumes:
@@ -13,7 +13,7 @@ services:
 
   queue:
     build:
-      context: .
+      context: ./laravel
       dockerfile: Dockerfile
     command: 'php artisan queue:work'
     depends_on:
@@ -26,11 +26,11 @@ services:
     image: mysql:8.0
     container_name: Database
     environment:
-      MYSQL_DATABASE: "${DB_DATABASE}"
-      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_DATABASE: team_challenge
+      MYSQL_USER: master
       MYSQL_ROOT: "root"
-      MYSQL_PASSWORD: "${DB_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: 123
     volumes:
       - db:/var/lib/mysql
     ports:

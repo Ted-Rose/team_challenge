@@ -33,18 +33,16 @@ A game for teams of all ages developed by Tedis
 9. Copy the certificate to the root of the phone
 10. Install the certificate from the phones settings (Google it)
 
-# Setup for local deployment (without docker)
-1. Make a copy of `.env.template`
-2. Rename `.env copy.template` to `.env`
-3. Rename `urls.template.json` to `urls.json`
-4. Update `base_url` in `urls.json` to BE base url
-5. Start MySQL server (on WAMPSERVER64 for example)
-6. `composer install`
-7. Identify your IP Address `ipconfig`
-8. `php artisan serve`
-  1. To access sita via mobile phone: `php artisan serve --host=your_ip_address --port=8000`
-9. `php artisan migrate`
-10. `php artisan db:seed`
-11. `cd Frontend`
-12. `npm start`
-13. Visit http://localhost:8000/players for example
+# Setup for local deployment (without Docker)
+- Make a copy of `react\src\urls.template.json` rename it to `urls.json`
+    1. In `react\src\urls.json` update `base_url` to `http://your_ip_address:8000`
+- Make a copy of `.env.template` and rename it to `.env`
+- Launch WampServer and make sure db configuration matches `.env` and `docker-compose.yaml`
+- `cd laravel`
+- `composer install`
+- `php artisan serve`
+  - NOTE: To access sita via mobile phone: `php artisan serve --host=your_ip_address --port=8000`
+- `php artisan migrate`
+- `php artisan db:seed`
+- In another terminal `cd react`
+- `npm start`
