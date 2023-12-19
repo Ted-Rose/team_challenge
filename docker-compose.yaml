@@ -8,8 +8,6 @@ services:
     working_dir: /var/www
     volumes:
       - ./laravel:/var/www
-    ports:
-      - 8000:8000
     networks:
       - laravel-network
 
@@ -43,10 +41,14 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - '443:443'
+      # User 443 for HTTPS
+      # - '443:443'
+      # User 80 for HTTP
+      - '80:80'
     volumes:
+      # Mount SSL certificate for HTTPS
+      # - ./nginx/ssl:/etc/nginx/ssl:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
       - ./react/build:/etc/nginx/html
     depends_on:
       - laravel

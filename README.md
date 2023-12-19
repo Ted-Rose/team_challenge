@@ -4,20 +4,21 @@ A game for teams of all ages developed by Tedis
 # Setup
 
 ## Base setup
-0. `docker-compose up --build` when first starting the project
-1. `docker-compose up` when starting the project not for the first time
-2. `docker-compose exec main php artisan migrate --seed` to create and seed db tables
-3. Identify your IP Address
+- Identify your IP Address
     1. Windows: `ipconfig`
         1. Under `Wireless LAN adapter Wi-Fi:` the correct address is `IPv4 Address`
-4. Make a copy of `Frontend\src\urls.template.json` in the same directory and rename it to `urls.json`
-    1. In `Frontend\src\urls.json` update `YOUR_URL` to `http://your_ip_address:8000`
-5. Make a copy of `.env.template` in the same directory and rename it to `.env`
-6. Visit `https://your_ip_address:8000` on your local network to begin
+- Make a copy of `react\src\urls.template.json` rename it to `urls.json`
+    1. In `react\src\urls.json` update `base_url` to `http://your_ip_address:8000`
+- Make a copy of `.env.template` and rename it to `.env`
+- Make a copy of `nginx\conf.d\default.conf.template.htpps` and rename it to `default.conf`
+    - NOTE: For HTTP copy `nginx\conf.d\default.conf.template.htpp` instead
+- `docker-compose up --build` when first starting the project
+- `docker-compose up` when starting the project not for the first time
+- `docker-compose exec main php artisan migrate --seed` to create and seed db tables
+- Visit `https://your_ip_address` on your local network to begin
     1. Current password is `Bear`
     2. If encountering error connecting via your local network try turning off firewall
-    3. Probably you won't be able to access the site from mobile phone without manually trusting the self-signed certificate (see the following section)
-https://medium.com/@nhatcuong/site-with-both-http-and-https-pages-using-nginx-and-django-b2574559c2d9 
+    3. Probably you won't be able to access the site from mobile phone without manually trusting the self-signed certificate (see section `Manually trusting the self-signed certificate` below)
 
 # Manually trusting the self-signed certificate
 1. Follow [these](https://tecadmin.net/install-openssl-on-windows/) steps to install OpenSSL
