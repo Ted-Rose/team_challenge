@@ -8,7 +8,7 @@ A game for teams of all ages developed by Tedis
     1. Windows: `ipconfig`
         1. Under `Wireless LAN adapter Wi-Fi` the correct address is `IPv4 Address`
 - Make a copy of `react\src\urls.template.json` rename it to `urls.json`
-    1. In `react\src\urls.json` update `base_url` to `http://your_ip_address`
+    1. In `react\src\urls.json` update `base_url` to `https://your_ip_address` (use http for HTTP)
 - Make a copy of `laravel\.env.template` and rename it to `.env`
 - Make a copy of `nginx\conf.d\default.conf.template.htpps` and rename it to `default.conf`
     - NOTE: For HTTP copy `nginx\conf.d\default.conf.template.htpp` instead
