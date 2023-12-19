@@ -25,3 +25,4 @@ yarn-error.log
 /.vscode
 docker/nginx/conf.d/default.conf
 docker/nginx/ssl/
+nginx/ssl/

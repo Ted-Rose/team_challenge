@@ -24,6 +24,7 @@ https://medium.com/@nhatcuong/site-with-both-http-and-https-pages-using-nginx-an
 2. cd `nginx\ssl`
 3. `openssl genpkey -algorithm RSA -out server.key`
 4. `openssl req -new -key server.key -out server.csr`
+    1. !!! Make sure to enter the full url your going to use to access your site in the `Common Name (CN)` (https://localhost or https://127.0.0.1 for example)
 5. `openssl x509 -req -in server.csr -signkey server.key -out server.crt -days 365`
 6. `docker\nginx\conf.d\default.conf` - define `proxy_pass` to match your `IPv4 Address`
 7. Visit the HTTPS site on your local network using desktop device
