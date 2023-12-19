@@ -50,7 +50,7 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./nginx/ssl:/etc/nginx/ssl:ro
-      - ./frontend/build:/usr/share/nginx/html
+      - ./frontend/build:/etc/nginx/html
     depends_on:
       - main
     networks:
