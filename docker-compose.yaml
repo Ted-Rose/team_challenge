@@ -41,9 +41,9 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      # User 443 for HTTPS
+      # Use 443 for HTTPS
       # - '443:443'
-      # User 80 for HTTP
+      # Use 80 for HTTP
       - '80:80'
     volumes:
       # Mount SSL certificate for HTTPS
