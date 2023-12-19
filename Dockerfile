@@ -1,15 +1,23 @@
 FROM php:8.1-fpm-alpine
 
-RUN docker-php-ext-install pdo pdo_mysql sockets
-RUN curl -sS https://getcomposer.org/installer | php -- \
-     --install-dir=/usr/local/bin --filename=composer
+# Install required extensions
+RUN docker-php-ext-install pdo_mysql
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Set the working directory
+WORKDIR /var/www/html
 
-WORKDIR /var/www
+# Copy the Laravel application files to the container
+COPY ./laravel .
 
-COPY . .
+# Install Composer and dependencies
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN composer install --no-interaction --no-scripts
 
-RUN composer install
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# CMD php artisan serve --host=0.0.0.0
+# Expose port 9000
+EXPOSE 9000
+
+# Start PHP-FPM
+CMD ["php-fpm"]
