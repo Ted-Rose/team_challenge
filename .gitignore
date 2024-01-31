@@ -1,5 +1,4 @@
 laravel/node_modules
-laravel/vendor
 nginx/conf.d/default.conf
 nginx/ssl
 react/build/
