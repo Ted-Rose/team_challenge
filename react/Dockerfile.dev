@@ -1,20 +1,21 @@
-# Dockerfile used when developing React
-
-# Fetching the latest node image on alpine linux
-FROM node:alpine AS development
-
-# Declaring env
+FROM node:14-alpine AS development
 ENV NODE_ENV development
 
-# Setting up the work directory
-WORKDIR /react-app
+# Add a work directory
+WORKDIR /react
 
-# Installing dependencies
-COPY ./package.json /react-app
-RUN npm install
+# Cache and Install dependencies
+COPY package.json .
+COPY package-lock.json .
 
-# Copying all the files in our project
+#RUN yarn install
+RUN npm i
+
+# Copy app files
 COPY . .
 
-# Starting our application
-CMD npm start
+# Expose port
+EXPOSE 3000
+
+# Start the app
+CMD [ "yarn", "start" ]

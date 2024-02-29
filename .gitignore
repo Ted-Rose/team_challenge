@@ -6,6 +6,8 @@
 /vendor
 /.vscode
 
+laravel/.env
+
 nginx/conf.d/default.conf
 nginx/ssl
 react/build/
