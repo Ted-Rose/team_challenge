@@ -10,7 +10,7 @@ RUN mkdir -p /etc/nginx/ssl && \
   openssl genrsa -des3 -passout pass:x -out /etc/nginx/ssl/server.pass.key 2048 && \
   openssl rsa -passin pass:x -in /etc/nginx/ssl/server.pass.key -out /etc/nginx/ssl/server.key && \
   rm /etc/nginx/ssl/server.pass.key && \
-  openssl req -new -key /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.csr -subj '/C=UK/ST=Warwickshire/L=Leamington/O=OrgName/OU=IT Department/CN=127.0.0.1' && \
+  openssl req -new -key /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.csr -subj '/C=UK/ST=Warwickshire/L=Leamington/O=OrgName/OU=IT Department/CN=192.168.43.44' && \
   openssl x509 -req -days 365 -in /etc/nginx/ssl/server.csr -signkey /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt
 
 # Stage 2: Runtime stage
@@ -25,7 +25,7 @@ COPY --from=build-stage /etc/nginx/ssl /etc/nginx/ssl
 COPY --from=build-stage /etc/nginx/conf.d /etc/nginx/conf.d
 
 # # Copy other necessary files (e.g., HTML files) if needed
-# COPY ./build /etc/nginx/html
+COPY --from=build-stage /react_build /etc/nginx/html
 
 # Expose ports
 EXPOSE 443
