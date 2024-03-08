@@ -9,6 +9,7 @@
 laravel/.env
 
 nginx/conf.d/default.conf
+react/conf.d/default.conf
 nginx/ssl
 react/build/
 react/node_modules/

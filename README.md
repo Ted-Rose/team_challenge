@@ -6,6 +6,8 @@ A game for teams of all ages developed by Tedis
 
 ## Base setup
 
+`docker-compose -f docker-compose.prod.yml build`
+
 - Identify your IP Address
   1. Windows: `ipconfig`
      1. Under `Wireless LAN adapter Wi-Fi` the correct address is `IPv4 Address`

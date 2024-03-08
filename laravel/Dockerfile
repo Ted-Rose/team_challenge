@@ -16,7 +16,7 @@ RUN composer install --no-interaction --no-scripts
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-RUN apk add --no-cache openssl
+# RUN apk add --no-cache openssl
 
 # RUN mkdir /etc/nginx/ssl
 # RUN openssl genrsa -des3 -passout pass:x -out /etc/nginx/ssl/server.pass.key 2048
