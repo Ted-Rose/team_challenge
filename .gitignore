@@ -1,0 +1,14 @@
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+/.vscode
+
+laravel/.env
+
+react/conf.d/default.conf
+react/build/
+react/node_modules/
+react/src/urls.json

@@ -1,0 +1,23 @@
+li {
+  float: left;
+}
+
+li a {
+  color: white;
+  padding-right: 16px;
+  text-decoration: none;
+}
+
+.selected {
+  background-color: #ffc107;
+}
+
+.btn {
+  min-width: 70px;
+  margin: 0.3rem;
+  padding: 0.3rem;
+}
+
+.points-control {
+    max-width: 200px;
+}
