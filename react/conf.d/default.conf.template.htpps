@@ -2,34 +2,34 @@ server {
   listen 443 ssl;
   server_name 127.0.0.1; # Enter your IPv4 Address here
 
-    error_log /var/log/nginx/error.log debug;
+  error_log /var/log/nginx/error.log warn;
   access_log /var/log/nginx/access.log;
 
   ssl_certificate /etc/nginx/ssl/server.crt;
   ssl_certificate_key /etc/nginx/ssl/server.key;
 
-  location /api/ {
-      try_files $uri $uri/ /index.php?$query_string;
-  }
-
-  location ~ /api/.*\.php$ {
-      # include snippets/fastcgi-php.conf;
-      fastcgi_pass unix:/run/php/php8.3-fpm.sock;
-  }
-
   location / {
-    root /etc/nginx/html;
+    root /var/www/html/team_challenge/react/build;
     index index.html;
-    try_files $uri $uri/ /index.html;
-}
-
-  location = /favicon.ico {
-      access_log off;
-      log_not_found off;
+    try_files $uri $uri/ /index.html =404;  # Only redirect to index.html if $uri doesn't match any other locations
   }
 
-  location ~* \.(?:css|js|map|png|jpg|jpeg|gif|ico|svg)$ {
-      expires max;
-      add_header Cache-Control "public, immutable";
-  }
+  # location /api/ {
+  #     try_files $uri $uri/ /index.php?$query_string;
+  # }
+
+  # location ~ /api/.*\.php$ {
+  #     # include snippets/fastcgi-php.conf;
+  #     fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+  # }
+
+  # location = /favicon.ico {
+  #     access_log off;
+  #     log_not_found off;
+  # }
+
+  # location ~* \.(?:css|js|map|png|jpg|jpeg|gif|ico|svg)$ {
+  #     expires max;
+  #     add_header Cache-Control "public, immutable";
+  # }
 }
