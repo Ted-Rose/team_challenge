@@ -12,3 +12,5 @@ react/conf.d/default.conf
 react/build/
 react/node_modules/
 react/src/urls.json
+react/Dockerfile.dev
+react/Dockerfile.prod

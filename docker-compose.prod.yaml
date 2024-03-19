@@ -40,33 +40,13 @@ services:
     networks:
       - laravel-network
 
-  # nginx:
-  #   container_name: nginx
-  #   image: nginx:latest
-  #   build:
-  #     context: ./nginx
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     # Mount SSL certificate for HTTPS
-  #     - ./nginx/ssl:/etc/nginx/ssl:ro
-  #     - ./nginx/conf.d:/etc/nginx/conf.d:ro
-  #     # - ./react/build:/etc/nginx/html
-  #   tty: true
-  #   depends_on:
-  #     - laravel
-  #     - react-prod
-  #   networks:
-  #     - laravel-network
-
-  react-prod:  # Production service
-    container_name: react-prod
+  nginx:
+    container_name: nginx
     build:
       context: ./react
       dockerfile: Dockerfile.prod
-    # volumes:
-    #   - shared_data:/react_build
-    # ports:
-    #   - '80:80'
+    ports:
+      - '1443:443'
     networks:
       - laravel-network
 

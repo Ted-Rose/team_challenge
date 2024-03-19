@@ -6,7 +6,6 @@ A game for teams of all ages developed by Tedis
 
 ## Base setup
 
-`docker-compose -f docker-compose.prod.yml build`
 
 - Identify your IP Address
   1. Windows: `ipconfig`
@@ -16,8 +15,9 @@ A game for teams of all ages developed by Tedis
 - Make a copy of `laravel\.env.template` and rename it to `.env`
 - Make a copy of `nginx\conf.d\default.conf.template.htpps` and rename it to `default.conf`
   - NOTE: For HTTP copy `nginx\conf.d\default.conf.template.htpp` instead
-- `docker-compose up --build` when first starting the project
-  - NOTE: `docker-compose up` when starting the project not for the first time
+- Build containers with `docker-compose -f docker-compose.prod.yaml build` when first starting the project
+  <!-- - NOTE: `docker-compose up` when starting the project not for the first time -->
+- Start containers with `docker-compose -f docker-compose.prod.yaml up`
 - `docker-compose exec laravel php artisan migrate --seed` to create and seed db tables
 - Visit `https://your_ip_address` on your local network to begin (use http for HTTP)
   1. Current password is `Bear`
