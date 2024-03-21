@@ -8,7 +8,7 @@ laravel/vendor
 
 laravel/.env
 
-react/conf.d/default.conf
+# react/conf.d/default.conf
 react/build/
 react/node_modules/
 react/src/urls.json
