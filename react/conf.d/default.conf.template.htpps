@@ -8,29 +8,25 @@ server {
   ssl_certificate /etc/nginx/ssl/server.crt;
   ssl_certificate_key /etc/nginx/ssl/server.key;
 
-  location / {
-    root /var/www/html/team_challenge/react/build;
-    index index.html;
-    try_files $uri $uri/ /index.html;
-  }
+  root /var/www/html/team_challenge/react/build;
+
+#   location / {
+#     index index.html;
+#     try_files $uri $uri/ /index.html;
+#   }
 
   location /api {
-    root /var/www/public; # Your Laravel's public directory
-    try_files $uri $uri/ /index.php?$query_string;
+    try_files $uri $uri/ @laravel; # Fallback to named block for requests not matching files
+  }
 
-    # Pass the PHP requests to FastCGI server (php-fpm service in the `laravel` container)
-    location ~ \.php$ {
-      # Use FastCGI interface
-      fastcgi_pass laravel:9000;
-      fastcgi_index index.php;
-      include fastcgi_params;
+  location @laravel {
+    # Perform an internal redirect to the index.php front controller
+    rewrite ^/api/(.*)$ /index.php?/$1 last;
+  }
 
-      # Define SCRIPT_FILENAME parameter
-      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-
-      # When using path info, specify the following
-      fastcgi_split_path_info ^(.+\.php)(/.+)$;
-      fastcgi_param PATH_INFO $fastcgi_path_info;
-    }
+  location ~ \.php$ {
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME /var/www/public$fastcgi_script_name; # Assume this is the correct path in Laravel container
+    fastcgi_pass laravel:9000;
   }
 }
