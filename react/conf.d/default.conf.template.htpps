@@ -8,25 +8,17 @@ server {
   ssl_certificate /etc/nginx/ssl/server.crt;
   ssl_certificate_key /etc/nginx/ssl/server.key;
 
-  root /var/www/html/team_challenge/react/build;
-
-#   location / {
-#     index index.html;
-#     try_files $uri $uri/ /index.html;
-#   }
+  root /var/www/html/public;
 
   location /api {
-    try_files $uri $uri/ @laravel; # Fallback to named block for requests not matching files
-  }
-
-  location @laravel {
-    # Perform an internal redirect to the index.php front controller
-    rewrite ^/api/(.*)$ /index.php?/$1 last;
+    try_files $uri $uri/ /index.php?$query_string;
   }
 
   location ~ \.php$ {
     include fastcgi_params;
-    fastcgi_param SCRIPT_FILENAME /var/www/public$fastcgi_script_name; # Assume this is the correct path in Laravel container
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    # Pass the PHP requests to FastCGI server (php-fpm service in the `laravel` container)
     fastcgi_pass laravel:9000;
+    fastcgi_index index.php;
   }
 }

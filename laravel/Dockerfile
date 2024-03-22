@@ -10,6 +10,9 @@ COPY . .
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-interaction --no-scripts
 
+# Give permision for laravel to access storage directory (for logging etc)
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
 # Expose port 9000
 EXPOSE 9000
 
