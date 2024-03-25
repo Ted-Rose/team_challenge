@@ -4,12 +4,9 @@ A game for teams of all ages developed by Tedis
 
 # Setup
 
-## Base setup
+## Setup for production
 
 
-- Identify your IP Address
-  1. Windows: `ipconfig`
-     1. Under `Wireless LAN adapter Wi-Fi` the correct address is `IPv4 Address`
 - Make a copy of `react\src\urls.template.json` rename it to `urls.json`
   1. In `react\src\urls.json` update `base_url` to `https://your_ip_address` (use http for HTTP)
 - Make a copy of `laravel\.env.template` and rename it to `.env`
