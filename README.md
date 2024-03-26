@@ -6,6 +6,8 @@ A game for teams of all ages developed by Tedis
 
 ## Setup for production
 - Build containers with `docker-compose -f docker-compose.prod.yaml build` when first starting the project
+  - `docker-compose -f docker-compose.dev.yaml down`
+    - To prevent port conflicts with dev containers
 - Start containers with `docker-compose -f docker-compose.prod.yaml up`
 - `docker-compose exec laravel php artisan migrate --seed` to create and seed db tables
 - Visit `https://your_ip_address:1443` on your local network to begin
@@ -16,10 +18,15 @@ A game for teams of all ages developed by Tedis
 
 ## Setup for development
 - Build containers with this command when first starting the project:
+  - `docker-compose -f docker-compose.prod.yaml down`
+    - To prevent port conflicts with prod containers
   - `docker-compose -f docker-compose.dev.yaml build`
+  - `docker-compose exec laravel-dev php artisan migrate --seed` to create and seed db tables
+  - Note: Docker on your host machine might not have the permissions to mount the `/react/src` directory.
+    - You can either grant docker the permissions or manually copy the `/react/src` directory to the container using this command:
+      - `docker cp /path/to/directory/team_challenge/react/src react:/react/src`
+      - Refreshing your website should now update React according to the latest src directory files
 - Start containers with `docker-compose -f docker-compose.prod.yaml up`
-- Use this command to update src directory in container:
-   - `docker cp /Users/tedis.rozenfelds/personal_data/p_projects/team_challenge/react/src react:/react/src`
 
 ## Add users, players and NFC id's
 1. To add users (users that can log in) modify array `users` in `laravel/database/seeders/PlayersTableSeeder.php`

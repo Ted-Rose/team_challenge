@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start --host 0.0.0.0",
-    "start-https": "HTTPS=true SSL_CRT_FILE=react/ssl/server.crt SSL_KEY_FILE=react/ssl/server.key react-scripts start",
+    "start-https": "HTTPS=true SSL_CRT_FILE=etc/nginx/ssl/server.crt SSL_KEY_FILE=etc/nginx/ssl/server.key react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

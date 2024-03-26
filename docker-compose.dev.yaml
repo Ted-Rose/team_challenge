@@ -1,54 +1,81 @@
 version: '3.8'
 
 services:
-  # laravel:
-  #   build:
-  #     context: ./laravel
-  #     dockerfile: Dockerfile
-  #   container_name: laravel
-  #   networks:
-  #     - laravel-network
+  laravel-dev:
+    build:
+      context: ./laravel
+      dockerfile: Dockerfile
+    container_name: laravel-dev
+    environment:
+      DB_HOST: db
+    networks:
+      - laravel-network-dev
 
-  # queue:
-  #   build:
-  #     context: ./laravel
-  #     dockerfile: Dockerfile
-  #   container_name: queue
-  #   command: 'php artisan queue:work'
-  #   depends_on:
-  #     - db
-  #   networks:
-  #     - laravel-network
+  queue-dev:
+    build:
+      context: ./laravel
+      dockerfile: Dockerfile
+    container_name: queue-dev
+    command: 'php artisan queue:work'
+    depends_on:
+      - db
+    networks:
+      - laravel-network-dev
 
-  # db:
-  #   platform: linux/x86_64
-  #   image: mysql:8.0
-  #   container_name: database
-  #   environment:
-  #     MYSQL_DATABASE: team_challenge
-  #     MYSQL_USER: master
-  #     MYSQL_ROOT: "root"
-  #     MYSQL_PASSWORD: 123
-  #     MYSQL_ROOT_PASSWORD: 123
-  #   ports:
-  #     - 3306:3306
-  #   networks:
-  #     - laravel-network
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: db
+    environment:
+      MYSQL_DATABASE: team_challenge
+      MYSQL_USER: master
+      MYSQL_ROOT: "root"
+      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - 3306:3306
+    networks:
+      - laravel-network-dev
 
-  react:
-    container_name: react
+  nginx-dev:
+    container_name: nginx-dev
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ssl_certs:/etc/nginx/ssl
+    # Expose port 9999 in case port 443 is already taken on host machine
+    # and port 1443 is allocated for react-dev container
+    ports:
+      - '9999:443'
+    networks:
+      - laravel-network-dev
+
+  react-dev:
+    container_name: react-dev
     build:
       context: ./react
       dockerfile: Dockerfile.dev
+      # Pass BUILDKIT_INLINE_CACHE to use build cache populated by previous builds
+      # In this case to access ssl_certs directory
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+    volumes:
+      - ssl_certs:/etc/nginx/ssl
+    # volumes:
+    #   - ./src:/react/src
+    # Expose port 1443 in case port 443 is already taken on host machine
+    depends_on:
+      - nginx-dev
     ports:
       - '1443:3000'
-#     networks:
-#       - laravel-network
 
-# networks:
-#   laravel-network:
-#     driver: bridge
+networks:
+  laravel-network-dev:
+    driver: bridge
 
-# volumes:
-#   db:
-#     driver: local
+volumes:
+  db:
+    driver: local
+  ssl_certs:
+    driver: local
