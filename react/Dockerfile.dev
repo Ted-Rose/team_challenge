@@ -1,15 +1,22 @@
 FROM node:14-alpine AS development
 ENV NODE_ENV development
 
-# Add a work directory
-WORKDIR /react
+RUN apk add --no-cache openssl
+
+# Generate SSL certificates
+RUN mkdir -p /react/ssl && \
+  openssl genrsa -des3 -passout pass:x -out /react/ssl/server.pass.key 2048 && \
+  openssl rsa -passin pass:x -in /react/ssl/server.pass.key -out /react/ssl/server.key && \
+  rm /react/ssl/server.pass.key && \
+  openssl req -new -key /react/ssl/server.key -out /react/ssl/server.csr -subj '/C=LV/ST=Riga/L=Riga/O=OrgName/OU=IT Department/CN=your_ip_address' && \
+  openssl x509 -req -days 365 -in /react/ssl/server.csr -signkey /react/ssl/server.key -out /react/ssl/server.crt
 
 # Cache and Install dependencies
 COPY package.json .
 COPY package-lock.json .
 
 #RUN yarn install
-RUN npm i
+RUN npm i --frozen-lockfile
 
 # Copy app files
 COPY . .
@@ -18,4 +25,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the app
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "start-https" ]

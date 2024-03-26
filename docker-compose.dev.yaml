@@ -1,16 +1,54 @@
-# Tutorial
-# https://blog.vishnuprasaath.dev/dockerize-react-app-for-dev-and-prod
-
-version: "3.8"
+version: '3.8'
 
 services:
-  app:
-    container_name: app-dev-c
-    image: app-dev-i
+  # laravel:
+  #   build:
+  #     context: ./laravel
+  #     dockerfile: Dockerfile
+  #   container_name: laravel
+  #   networks:
+  #     - laravel-network
+
+  # queue:
+  #   build:
+  #     context: ./laravel
+  #     dockerfile: Dockerfile
+  #   container_name: queue
+  #   command: 'php artisan queue:work'
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - laravel-network
+
+  # db:
+  #   platform: linux/x86_64
+  #   image: mysql:8.0
+  #   container_name: database
+  #   environment:
+  #     MYSQL_DATABASE: team_challenge
+  #     MYSQL_USER: master
+  #     MYSQL_ROOT: "root"
+  #     MYSQL_PASSWORD: 123
+  #     MYSQL_ROOT_PASSWORD: 123
+  #   ports:
+  #     - 3306:3306
+  #   networks:
+  #     - laravel-network
+
+  react:
+    container_name: react
     build:
-      context: .react
+      context: ./react
       dockerfile: Dockerfile.dev
-    volumes:
-      - ./src:/app/src
     ports:
-      - "3000:3000"
+      - '1443:3000'
+#     networks:
+#       - laravel-network
+
+# networks:
+#   laravel-network:
+#     driver: bridge
+
+# volumes:
+#   db:
+#     driver: local

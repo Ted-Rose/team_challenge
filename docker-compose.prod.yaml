@@ -35,8 +35,8 @@ services:
     networks:
       - laravel-network
 
-  nginx:
-    container_name: nginx
+  nginx-react:
+    container_name: nginx-react
     build:
       context: ./react
       dockerfile: Dockerfile.prod

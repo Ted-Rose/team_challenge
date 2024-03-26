@@ -14,15 +14,18 @@ A game for teams of all ages developed by Tedis
   2. If encountering error connecting via your local network try turning off firewall
   3. Probably you won't be able to access the site from mobile phone without manually trusting the self-signed certificate (see section `Manually trusting the self-signed certificate` below)
 
+## Setup for development
+- Build containers with this command when first starting the project:
+  - `docker-compose -f docker-compose.dev.yaml build`
+- Start containers with `docker-compose -f docker-compose.prod.yaml up`
+- Use this command to update src directory in container:
+   - `docker cp /Users/tedis.rozenfelds/personal_data/p_projects/team_challenge/react/src react:/react/src`
+
 ## Add users, players and NFC id's
 1. To add users (users that can log in) modify array `users` in `laravel/database/seeders/PlayersTableSeeder.php`
 2. To add players (users that can have points) modify array `players` in `laravel/database/seeders/PlayersTableSeeder.php`
 3. To add teams modify array `teams` in `laravel/database/seeders/TeamsTableSeeder.php`
 
-## Setup for development
-- Build containers with this command when first starting the project:
-  - `docker-compose -f docker-compose.dev.yaml build`
-- Start containers with `docker-compose -f docker-compose.prod.yaml up`
 
 # Manually trusting the self-signed certificate
 
