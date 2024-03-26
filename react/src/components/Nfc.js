@@ -34,7 +34,8 @@ const Nfc = (props) => {
     if (!("NDEFReader" in window))
       setStatus(
         "NFC lasīšana šajā pārlūkprogrammā nav iespējama. \
-        Lietojiet Chrome caur Android telefonu."
+        Lietojiet Chrome caur Android telefonu.\
+        Diemžēl iPhone neatbalsta NFC izmantošanu pārlūkprogrammā."
       );
 
     // Add event listener to the scan button
@@ -54,7 +55,7 @@ const Nfc = (props) => {
         // Event listener for successful reading
         ndef.addEventListener("reading", ({ message, serialNumber }) => {
           log(`> Serial Number: ${serialNumber}`);
-          props.changeSerial({ serialNumber });
+          props.changeSerializer({ serialNumber });
           log(`> Records: (${message.records.length})`);
         });
       } catch (error) {

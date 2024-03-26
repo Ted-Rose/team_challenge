@@ -5,21 +5,24 @@ A game for teams of all ages developed by Tedis
 # Setup
 
 ## Setup for production
-
-
-- Make a copy of `react\src\urls.template.json` rename it to `urls.json`
-  1. In `react\src\urls.json` update `base_url` to `https://your_ip_address` (use http for HTTP)
-- Make a copy of `laravel\.env.template` and rename it to `.env`
-- Make a copy of `nginx\conf.d\default.conf.template.htpps` and rename it to `default.conf`
-  - NOTE: For HTTP copy `nginx\conf.d\default.conf.template.htpp` instead
 - Build containers with `docker-compose -f docker-compose.prod.yaml build` when first starting the project
-  <!-- - NOTE: `docker-compose up` when starting the project not for the first time -->
 - Start containers with `docker-compose -f docker-compose.prod.yaml up`
 - `docker-compose exec laravel php artisan migrate --seed` to create and seed db tables
-- Visit `https://your_ip_address` on your local network to begin (use http for HTTP)
+- Visit `https://your_ip_address:1443` on your local network to begin
+  !!! Note the "1443" port that is set in case port 443 is already taken
   1. Current password is `Bear`
   2. If encountering error connecting via your local network try turning off firewall
   3. Probably you won't be able to access the site from mobile phone without manually trusting the self-signed certificate (see section `Manually trusting the self-signed certificate` below)
+
+## Add users, players and NFC id's
+1. To add users (users that can log in) modify array `users` in `laravel/database/seeders/PlayersTableSeeder.php`
+2. To add players (users that can have points) modify array `players` in `laravel/database/seeders/PlayersTableSeeder.php`
+3. To add teams modify array `teams` in `laravel/database/seeders/TeamsTableSeeder.php`
+
+## Setup for development
+- Build containers with this command when first starting the project:
+  - `docker-compose -f docker-compose.dev.yaml build`
+- Start containers with `docker-compose -f docker-compose.prod.yaml up`
 
 # Manually trusting the self-signed certificate
 
