@@ -45,7 +45,7 @@ const Nfc = (props) => {
       try {
         const ndef = new NDEFReader();
         await ndef.scan();
-        log("> Scan started");
+        // log("> Scan started");
 
         // Event listener for reading errors
         ndef.addEventListener("readingerror", () => {
@@ -54,9 +54,9 @@ const Nfc = (props) => {
 
         // Event listener for successful reading
         ndef.addEventListener("reading", ({ message, serialNumber }) => {
-          log(`> Serial Number: ${serialNumber}`);
+            log(`> Serial Number: ${serialNumber}`);
+            var serialNumber = (serialNumber.toUpperCase()).toString();
           props.changeSerializer({ serialNumber });
-          log(`> Records: (${message.records.length})`);
         });
       } catch (error) {
         // Clear previous log

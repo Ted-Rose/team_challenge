@@ -22,9 +22,12 @@ A game for teams of all ages developed by Tedis
     - To prevent port conflicts with prod containers
   - `docker-compose -f docker-compose.dev.yaml build`
   - `docker-compose exec laravel-dev php artisan migrate --seed` to create and seed db tables
-  - Note: Docker on your host machine might not have the permissions to mount the `/react/src` directory.
-    - You can either grant docker the permissions or manually copy the `/react/src` directory to the container using this command:
-      - `docker cp /path/to/directory/team_challenge/react/src react:/react/src`
+  - Note: Docker on your host machine might not have the permissions to mount the host machines directories - needed to provide live reload when editing laravel or react files.
+    - You can either grant docker the permissions or manually copy the laravel's and react's directories to the containers when want to trigger reload using this commands:
+    ```
+    docker cp ./react/src react-dev:/
+    docker cp ./laravel laravel-dev:/var/www/html/
+    ```
       - Refreshing your website should now update React according to the latest src directory files
 - Start containers with `docker-compose -f docker-compose.prod.yaml up`
 
