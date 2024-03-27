@@ -14,7 +14,7 @@ const Player = () => {
     const [nfcNumber, setNfcNumber] = useState("");
     const [getPlayerMethod, setGetPlayerMethod] = useState("nfc");
     const [playerName, setPlayerName] = useState("");
-    const [logForScreen, setLogForScreen] = useState(["First log"]);
+    const [logForScreen, setLogForScreen] = useState([]);
     const [playerPassword, setPlayerPassword] = useState("");
     const token = getAuthToken();
 
@@ -23,6 +23,13 @@ const Player = () => {
     }, [nfcNumber]);
 
     const logOnScreen = (logArray) => {
+        /**
+         * Reading NFC is only possible on phones. Thus, debugging is pain.
+         * This function logs data to the screen.
+        *
+        * @param {array} logArray - array of log messages
+        * @return {void}
+        */
         // Create an array of JSX elements for each log message
         const logElements = logArray.map((logMessage, index) => (
             <React.Fragment key={index}>
@@ -34,6 +41,7 @@ const Player = () => {
             ...prevArray,
             logElements
         ]);
+        return
     };
 
     // Function to change points for a player
@@ -53,7 +61,6 @@ const Player = () => {
                 },
                 body: JSON.stringify(data),
             });
-
             if (response.ok) {
                 console.log("Points changed successfully");
             } else {
@@ -64,10 +71,17 @@ const Player = () => {
         }
         // Fetching new player data to update UI
         await getNewPoints();
+        return
     };
 
     // Fetch newest player points
     const getNewPoints = async () => {
+        // logOnScreen([
+        //     "Example of logging on screen.",
+        //     "You can also print variables.",
+        //     "For example current getPlayerMethod is:",
+        //     getPlayerMethod,
+        // ]);
         const url = urls[0].base_url + "/api/players";
         try {
             const response = await fetch(url, {
@@ -77,57 +91,60 @@ const Player = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            logOnScreen([
-                "In getNewPoints",
-                "getPlayerMethod:",
-                getPlayerMethod,
-            ]);
 
-            if (response.ok) {
-                setAuthorized(true);
-                const data = await response.json();
-                if (Array.isArray(data)) {
-                    setPlayersArray(data);
-                    if (getPlayerMethod === "nfc") {
-                        console.log(getPlayerMethod);
-                        getPlayerByNfcSerializer(data)
-                    }
-                    if (getPlayerMethod === "name") {
-                        getPlayerByName(data)
+                if (response.ok) {
+                    setAuthorized(true);
+                    const data = await response.json();
+                    if (Array.isArray(data)) {
+                        setPlayersArray(data);
+                        if (getPlayerMethod === "nfc") {
+                            console.log(getPlayerMethod);
+                            getPlayerByNfcSerializer(data)
+                        }
+                        if (getPlayerMethod === "name") {
+                            getPlayerByName(data)
+                        }
+                    } else {
+                        logOnScreen([
+                            "Response is not array",
+                        ]);
+                        console.log("Response data is not an array:", data);
                     }
                 } else {
-                    console.log("Response data is not an array:", data);
-                }
-            } else {
-                console.log("Failed to get player. Status:", response.status);
+                    console.log("Failed to get player. Status:", response.status);
+                    logOnScreen([
+                        "Failed to get player.Status: ", response.status
+                    ]);
             }
 
         } catch (error) {
             console.log("Request failed with error:", error);
         }
+        return
     };
 
     const changeNfcNumber = (nfcNumber) => {
         setNfcNumber(nfcNumber.serialNumber);
-
         return
     }
 
     const getPlayerByNfcSerializer = async (freshPlayersArray) => {
         if (freshPlayersArray && freshPlayersArray.length > 0) {
             const player = freshPlayersArray.find(
-                (player) => player.nfc_number === nfcNumber[0]
+                (player) => player.nfc_number === nfcNumber
             );
             setPlayer(player);
         } else {
             console.log("No players found in the array");
         }
+        return
     };
 
     const handleCredentials = (e) => {
         e.preventDefault();
         setFormSubmitted(true);
         getPlayerByName(playersArray);
+        return
     }
 
     const getPlayerByName = (freshPlayersArray) => {
@@ -138,11 +155,13 @@ const Player = () => {
         } else {
             console.log("No players found in the array");
         }
+        return
     };
 
     const createPlayerForm = async () => {
         setGetPlayerMethod("name");
         setFormSubmitted(false);
+        return
     }
 
     return (
@@ -154,13 +173,12 @@ const Player = () => {
                         <div className="list-group-item rounded-3 py-3 selected m-3 mt-1">
                             <h3>Atrastais dalībnieks:</h3>
                             <h4>{player.name}</h4>
-                            <h4>{player.points} EUR</h4>
+                            <h4>{player.points} punkti</h4>
                         </div>
                     </>
                 ) : (
                     <h3>Izvēlieties dalībnieku skenējot NFC karti vai ievadot vārdu un paroli</h3>
                 )}
-                PHONE CONSOLE:
                 {logForScreen}
                 <Nfc
                     changeSerializer={changeNfcNumber}
