@@ -1,49 +1,65 @@
 # Team Challenge
 
-A game for teams of all ages developed by Tedis
+A game for teams of all ages
 
 # Setup
 
 ## Setup for production
-- Build containers with `docker-compose -f docker-compose.prod.yaml build` when first starting the project
-  - `docker-compose -f docker-compose.dev.yaml down`
-    - To prevent port conflicts with dev containers
-- Start containers with `docker-compose -f docker-compose.prod.yaml up`
-- `docker-compose exec laravel php artisan migrate --seed` to create and seed db tables
+- Copy `react\src\urls.template.json` to `react\src\urls.json`:
+    - `cp react/src/urls.template.json react/src/urls.json`
+- Update `urls.json` variable `base_url` with your ip address and port 1443
+- Build containers:
+    - `docker-compose -f docker-compose.prod.yaml build`
+- Shut down dev containers to prevent port conflicts (in case you have started them)
+    - `docker-compose -f docker-compose.dev.yaml down`
+- Start prod containers:
+    - `docker-compose -f docker-compose.prod.yaml up`
+- Create and seed db tables:
+    - `docker-compose -f docker-compose.prod.yaml exec laravel php artisan migrate --seed`
 - Visit `https://your_ip_address:1443` on your local network to begin
-  !!! Note the "1443" port that is set in case port 443 is already taken
-  1. Current password is `Bear`
-  2. If encountering error connecting via your local network try turning off firewall
-  3. Probably you won't be able to access the site from mobile phone without manually trusting the self-signed certificate (see section `Manually trusting the self-signed certificate` below)
+  - !!! Note the "1443" port that is set in case port 443 is already taken
+  - Current password is `Bear`
+  - If encountering error connecting via your local network try turning off firewall
+  - If issues with trusting SSL certificate via phone see section `Manually trusting the self-signed certificate` under `Most common issues`
 
 ## Setup for development
-- Build containers with this command when first starting the project:
-  - `docker-compose -f docker-compose.prod.yaml down`
-    - To prevent port conflicts with prod containers
-  - `docker-compose -f docker-compose.dev.yaml build`
-  - `docker-compose exec laravel-dev php artisan migrate --seed` to create and seed db tables
-  - Note: Docker on your host machine might not have the permissions to mount the host machines directories - needed to provide live reload when editing laravel or react files.
+- Copy `react\src\urls.template.json` to `react\src\urls.json`:
+    - `cp react/src/urls.template.json react/src/urls.json`
+- Update `urls.json` variable `base_url` with your ip address and port 9000
+    - Note the port 9000 which differs from the prod port!
+- Build containers:
+    - `docker-compose -f docker-compose.dev.yaml build`
+- Shut down dev containers to prevent port conflicts (in case you have started them)
+    - `docker-compose -f docker-compose.prod.yaml down`
+- Start dev containers:
+    - `docker-compose -f docker-compose.dev.yaml up`
+- Create and seed db tables:
+    - `docker-compose -f docker-compose.dev.yaml exec laravel-dev php artisan migrate --seed`
+- Visit `https://your_ip_address:1443` on your local network to begin
+  - !!! Note the "1443" port that is set in case port 443 is already taken
+  - Current password is `Bear`
+  - If encountering error connecting via your local network try turning off firewall
+  - If issues with trusting SSL certificate via phone see section `Manually trusting the self-signed certificate` below
+- Note: Docker on your host machine might not have the permissions to mount the host machines directories - needed to provide live reload when editing laravel or react files.
     - You can either grant docker the permissions or manually copy the laravel's and react's directories to the containers when want to trigger reload using this commands:
     ```
     docker cp ./react/src react-dev:/
     docker cp ./laravel laravel-dev:/var/www/html/
     ```
-      - Refreshing your website should now update React according to the latest src directory files
-- Start containers with `docker-compose -f docker-compose.prod.yaml up`
+    - Refreshing your website should now update React according to the latest src directory files
 
 ## Add users, players and NFC id's
 1. To add users (users that can log in) modify array `users` in `laravel/database/seeders/PlayersTableSeeder.php`
 2. To add players (users that can have points) modify array `players` in `laravel/database/seeders/PlayersTableSeeder.php`
+    - `nfc_number` has to be in uppercase!
 3. To add teams modify array `teams` in `laravel/database/seeders/TeamsTableSeeder.php`
 
-
-# Manually trusting the self-signed certificate
-
-6. `docker\nginx\conf.d\default.conf` - define `proxy_pass` to match your `IPv4 Address`
-7. Visit the HTTPS site on your local network using desktop device
-8. Download the self signed SSL certificate
-9. Copy the certificate to the root of the phone
-10. Install the certificate from the phones settings (Google it for detailed instructions)
+# Most common issues
+## Manually trusting the self-signed certificate
+1. Visit the HTTPS site on your local network using desktop device
+2. Download the self signed SSL certificate
+3. Copy the certificate to the root of the phone
+4. Install the certificate from the phones settings (Google it for detailed instructions)
 
 # Setup for local deployment without Docker
 
@@ -51,24 +67,20 @@ A game for teams of all ages developed by Tedis
 
 ### 1. Fill templates
 
-- Make a copy of `react\src\urls.template.json` rename it to `urls.json`
-  - In `react\src\urls.json` update `base_url` to `http://your_ip_address:8000`
-- Make a copy of `laravel\.env.template` and rename it to `.env`
-
 ### 2. Set up Laravel
 
 - `cd laravel`
 - `composer update`
 - `composer install`
 
-### 4. Set up React
+### 3. Set up React
 
 - `cd react`
 - `npm install`
 - `npm run build`
 - `npm start`
 
-### 5. Launch application
+### 4. Launch application
 
 - Launch MySQL and fill db:
   - `cd laravel`
@@ -97,15 +109,3 @@ A game for teams of all ages developed by Tedis
     - NOTE: To access sita via mobile phone: `php artisan serve --host=your_ip_address --port=8000`
   - `cd react`
     - `npm start`
-
-Generating SSL certificates
-
-1. Install OpenSSL:
-
-- Windows - follow [these](https://tecadmin.net/install-openssl-on-windows/) steps
-
-2. `cd nginx\ssl`
-3. `openssl genpkey -algorithm RSA -out server.key`
-4. `openssl req -new -key server.key -out server.csr`
-   1. !!! Make sure to enter the full url your going to use to access your site in the `Common Name (CN)` (https://localhost or https://127.0.0.1 for example)
-5. `openssl x509 -req -in server.csr -signkey server.key -out server.crt -days 365`

@@ -47,7 +47,7 @@ services:
     # Expose port 9999 in case port 443 is already taken on host machine
     # and port 1443 is allocated for react-dev container
     ports:
-      - '9999:443'
+      - '9000:443'
     networks:
       - laravel-network-dev
 

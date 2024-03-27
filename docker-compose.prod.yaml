@@ -6,6 +6,8 @@ services:
       context: ./laravel
       dockerfile: Dockerfile
     container_name: laravel
+    ports:
+      - '9000:9000'
     networks:
       - laravel-network
 
