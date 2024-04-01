@@ -1,8 +1,8 @@
 /node_modules
-laravel/vendor
 /.vscode
 
-# react/conf.d/default.conf
+laravel/vendor
+
 react/build/
 react/node_modules/
 react/src/urls.json
