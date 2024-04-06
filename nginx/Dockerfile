@@ -1,0 +1,23 @@
+FROM node:14-alpine AS builder
+
+RUN apk add --no-cache openssl
+
+# Generate SSL certificates
+RUN mkdir -p /etc/nginx/ssl && \
+  openssl genrsa -des3 -passout pass:x -out /etc/nginx/ssl/server.pass.key 2048 && \
+  openssl rsa -passin pass:x -in /etc/nginx/ssl/server.pass.key -out /etc/nginx/ssl/server.key && \
+  rm /etc/nginx/ssl/server.pass.key && \
+  # Although the certificate is set for domain 127.0.0.1, it should work with any other IP address
+  openssl req -new -key /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.csr -subj '/C=LV/ST=Riga/L=Riga/O=OrgName/OU=IT Department/CN=127.0.0.1' && \
+  openssl x509 -req -days 365 -in /etc/nginx/ssl/server.csr -signkey /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt
+
+# Bundle static assets with nginx
+FROM nginx:1.21.0-alpine as production
+ENV NODE_ENV production
+
+# # Add your nginx.conf
+COPY --from=builder /etc/nginx/ssl /etc/nginx/ssl
+COPY ./conf.d/default_dev.conf /etc/nginx/conf.d/default.conf
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

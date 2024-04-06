@@ -4,6 +4,10 @@
 - FE - include input field validation for /tirdzins
 - BE bugfix - disable player creation with non existing teams_id
 - FS bugfix - when requesting data for a single player don't return all player data from backend
+- Restructure file structure
+- Increase Laravels rate limit
+    - First try following [docs](https://laravel.com/docs/11.x/rate-limiting) didn't succeed for containerized app
+    - Probably first should try locally
 
 # Lower priority ToDoList
 - Fix buggy Laravel dockerization

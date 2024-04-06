@@ -1,0 +1,39 @@
+{
+  "name": "point-counter",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "bootstrap": "5.2.3",
+    "bootstrap-icons": "1.10.3",
+    "loader-utils": "3.2.1",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-redux": "8.0.5",
+    "react-router": "^6.15.0",
+    "react-router-dom": "^6.15.0",
+    "react-scripts": "^5.0.1",
+    "sort-by": "^1.2.0"
+  },
+  "devDependencies": {
+    "@babel/runtime": "7.13.8",
+    "html-loader": "^4.2.0",
+    "typescript": "4.1.3"
+  },
+  "scripts": {
+    "start": "react-scripts start --host 0.0.0.0",
+    "start-https": "HTTPS=true SSL_CRT_FILE=etc/nginx/ssl/server.crt SSL_KEY_FILE=etc/nginx/ssl/server.key react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
