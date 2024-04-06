@@ -54,8 +54,14 @@ A game for teams of all ages
     - `nfc_number` has to be in uppercase!
 3. To add teams modify array `teams` in `laravel/database/seeders/TeamsTableSeeder.php`
 
+# Known bugs
+- Google Chromes sites translation feature might prevent the site from reloading
+    - Example: On the `/tirdzins` endpoint player points don't update after clicking on the point addition or subtraction button - HOWEVER THE POINTS ARE UPDATED ON THE DATABASE
+- Sometimes the site can't be reached by the phone that is providing hotspot for the sites host device
+
 # Most common issues
-## Manually trusting the self-signed certificate
+## Manually trusting the self-signed certificate on mobile device
+Seems that current phone browsers allow access to self signed certificates. But if you face issues try to do the following.
 1. Visit the HTTPS site on your local network using desktop device
 2. Download the self signed SSL certificate
 3. Copy the certificate to the root of the phone
